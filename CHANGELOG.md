@@ -2,6 +2,14 @@
 
 All notable changes to this project are documented in this file.
 
+## v0.1.1 - 2026-04-30
+
+### Fixed
+- Corrected assets resolution for `uvx`/wheel execution so `diana init` can always find bundled assets.
+- Fixed missing copy of Diana core (`.drfic/diana-sdk/sdk/diana`) when package is executed outside source-tree layout.
+- Fixed missing copy of Diana agents/prompts into `.github/agents` and `.github/prompts` under `uvx` flows.
+- Added explicit installer error when core copy fails and support for `DIANA_SDK_ASSETS_DIR` override.
+
 ## v0.1.0 - 2026-04-30
 
 ### Added

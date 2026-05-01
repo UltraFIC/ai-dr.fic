@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import shutil
 from pathlib import Path
 
@@ -31,12 +32,54 @@ def _copy_pattern(src_dir: Path, dst_dir: Path, pattern: str, force: bool) -> No
             shutil.copy2(item, target)
 
 
-def _init_project(target: Path, force: bool, skip_actions: bool) -> int:
-    repo_root = Path(__file__).resolve().parents[2]
+def _is_valid_assets_root(assets_root: Path) -> bool:
+    core = assets_root / "drfic" / "diana-sdk" / "sdk" / "diana"
+    prompts = assets_root / "github" / "prompts"
+    agents = assets_root / "github" / "agents"
+    return core.exists() and prompts.exists() and agents.exists()
 
-    src_diana = repo_root / "assets" / "drfic" / "diana-sdk" / "sdk" / "diana"
-    src_prompts = repo_root / "assets" / "github" / "prompts"
-    src_agents = repo_root / "assets" / "github" / "agents"
+
+def _resolve_assets_root() -> Path:
+    env_override = os.getenv("DIANA_SDK_ASSETS_DIR")
+    candidates: list[Path] = []
+    if env_override:
+        candidates.append(Path(env_override).expanduser().resolve())
+
+    module_file = Path(__file__).resolve()
+    module_dir = module_file.parent
+
+    # Support editable/source layout and uvx wheel layout.
+    candidates.append(module_dir / "assets")
+    for parent in module_file.parents:
+        candidates.append(parent / "assets")
+
+    seen: set[Path] = set()
+    unique_candidates: list[Path] = []
+    for candidate in candidates:
+        if candidate in seen:
+            continue
+        seen.add(candidate)
+        unique_candidates.append(candidate)
+
+    for assets_root in unique_candidates:
+        if _is_valid_assets_root(assets_root):
+            return assets_root
+
+    searched = "\n".join(f"- {p}" for p in unique_candidates)
+    raise FileNotFoundError(
+        "No se encontraron assets del instalador Diana SDK. "
+        "Rutas verificadas:\n"
+        f"{searched}\n\n"
+        "Asegura que el paquete incluya la carpeta assets/ o define DIANA_SDK_ASSETS_DIR."
+    )
+
+
+def _init_project(target: Path, force: bool, skip_actions: bool) -> int:
+    assets_root = _resolve_assets_root()
+
+    src_diana = assets_root / "drfic" / "diana-sdk" / "sdk" / "diana"
+    src_prompts = assets_root / "github" / "prompts"
+    src_agents = assets_root / "github" / "agents"
 
     drfic = target / ".drfic"
     diana_sdk = drfic / "diana-sdk"
@@ -79,6 +122,10 @@ def _init_project(target: Path, force: bool, skip_actions: bool) -> int:
     if not skip_actions:
         _copy_pattern(src_prompts, target / ".github" / "prompts", "diana.*.prompt.md", force=force)
         _copy_pattern(src_agents, target / ".github" / "agents", "diana.*.agent.md", force=force)
+
+    if not any(sdk_diana.iterdir()):
+        print("Error: No se copio el core Diana SDK en .drfic/diana-sdk/sdk/diana")
+        return 1
 
     print(f"Diana SDK instalado correctamente en: {target}")
     print("- Core SDK: .drfic/diana-sdk/sdk/diana")
