@@ -4,17 +4,19 @@ Diana SDK Installer: CLI instalable por `uvx` para inicializar Diana SDK en cual
 
 ## Uso
 
-```bash
-uvx --from "diana-sdk-installer @ git+https://github.com/UltraFIC/ai-dr.fic.git@v0.1.4#subdirectory=diana-sdk-installer" diana init
-```
-
-Si tu versión de `uv` soporta la resolución directa del subdirectorio, también puedes usar:
+El paquete está en la raíz del repositorio; no se necesita `#subdirectory`.
 
 ```bash
-uvx --from "git+https://github.com/UltraFIC/ai-dr.fic.git@v0.1.4#subdirectory=diana-sdk-installer" diana init
+uvx --from "diana-sdk-installer @ git+https://github.com/UltraFIC/ai-dr.fic.git@v0.1.4" diana init
 ```
 
-La forma con `diana-sdk-installer @ ...` sigue siendo la más robusta para monorepos, porque le indica a `uv` cuál es el paquete exacto a resolver.
+Si quieres siempre la última versión de la rama principal:
+
+```bash
+uvx --from "diana-sdk-installer @ git+https://github.com/UltraFIC/ai-dr.fic.git@main" diana init
+```
+
+La forma con `diana-sdk-installer @ ...` es la más robusta porque le indica a `uv` cuál es el paquete exacto a instalar.
 
 ## Comandos
 

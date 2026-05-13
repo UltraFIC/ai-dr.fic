@@ -4,6 +4,9 @@ All notable changes to this project are documented in this file.
 
 ## v0.1.4 - 2026-05-13
 
+### Fixed
+- Corrected install command in README: the package is at the repo root of `ai-dr.fic`, not in a subdirectory; removed erroneous `#subdirectory=diana-sdk-installer` from all documented `uvx` invocations.
+
 ### Added
 - Added new Diana help action assets:
 	- `diana.help.prompt.md`
