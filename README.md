@@ -4,10 +4,10 @@ Diana SDK Installer: CLI instalable por `uvx` para inicializar Diana SDK en cual
 
 ## Uso
 
-El paquete está en la raíz del repositorio; no se necesita `#subdirectory`.
+El paquete está en la raíz del repositorio oficial; no se necesita `#subdirectory`.
 
 ```bash
-uvx --from "diana-sdk-installer @ git+https://github.com/UltraFIC/ai-dr.fic.git@v0.1.4" diana init
+uvx --from "diana-sdk-installer @ git+https://github.com/UltraFIC/ai-dr.fic.git@v0.1.5" diana init
 ```
 
 Si quieres siempre la última versión de la rama principal:
@@ -43,3 +43,18 @@ Incluye soporte de sincronizacion de tareas Speckit -> Diana TEAM:
 Incluye centro de ayuda de Diana:
 - Prompt/agent: `diana.help`
 - Cobertura: sintaxis de comandos, tutorial SDD y guia de sincronizacion.
+
+Incluye el set actual completo de acciones Diana instalables:
+- `diana.change`
+- `diana.constitution`
+- `diana.help`
+- `diana.integrate`
+- `diana.knowledge`
+- `diana.new`
+- `diana.plan`
+- `diana.skills`
+- `diana.specify`
+- `diana.sync`
+- `diana.tasks`
+- `diana.teams`
+- `diana.ticket`

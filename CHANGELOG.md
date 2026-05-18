@@ -2,10 +2,22 @@
 
 All notable changes to this project are documented in this file.
 
-## v0.1.4 - 2026-05-13
+## v0.1.5 - 2026-05-17
 
-### Fixed
-- Corrected install command in README: the package is at the repo root of `ai-dr.fic`, not in a subdirectory; removed erroneous `#subdirectory=diana-sdk-installer` from all documented `uvx` invocations.
+### Added
+- Added missing Diana action assets to the installer package:
+	- `diana.integrate.prompt.md`
+	- `diana.integrate.agent.md`
+	- `diana.tasks.prompt.md`
+	- `diana.tasks.agent.md`
+	- `diana.teams.prompt.md`
+	- `diana.teams.agent.md`
+
+### Changed
+- Installer package now ships the full current `diana.*` action set present in the repository under `.github/prompts` and `.github/agents`.
+- `diana init` now installs `change`, `constitution`, `help`, `integrate`, `knowledge`, `new`, `plan`, `skills`, `specify`, `sync`, `tasks`, `teams` y `ticket`.
+
+## v0.1.4 - 2026-05-13
 
 ### Added
 - Added new Diana help action assets:
