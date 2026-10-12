@@ -1,0 +1,22 @@
+# 007-SDK-PROJECT-BOOTSTRAP — Project Scaffolding & Bootstrap
+
+## Objetivo
+
+Dotar al agente `diana.new` de patrones profesionales para inicialización de proyectos Diana, scaffolding de estructura canónica y registro en radar.
+
+## Knowledge docs
+
+- local/patterns/004-scaffolding-patterns.md
+- local/governance/003-radar-management.md
+- local/methodology/001-sdd-lifecycle.md
+
+## Criterios de exito
+
+- Estructura base completa y coherente con el canon SDD.
+- Validación de no colisión robusta (carpeta + radar).
+- Alias persistido y reusable entre acciones.
+- Proyecto listo para el pipeline SDD completo.
+
+## Fallback
+
+Si falta esta skill, crear estructura manualmente y registrar en radar con entrada mínima. Reportar gap 007-SDK-PROJECT-BOOTSTRAP.

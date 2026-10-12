@@ -1,0 +1,170 @@
+schema: spec-driven
+
+context: |
+  # Proyecto: DIANA SDK by DR.FIC - Framework de Spec-Driven Development
+
+  Repositorio oficial y canonico del framework DIANA: motor SDD propio, CLI
+  instalador distribuible (`diana-sdk-installer`, comando `diana`) y, a
+  futuro, proyectos demo construidos con Diana durante su propio desarrollo.
+  Publicado en GitHub como `UltraFIC/ai-dr.fic`, instalable via
+  `uvx --from "diana-sdk-installer @ git+https://github.com/UltraFIC/ai-dr.fic.git@<tag>" diana init`.
+
+  ## Origen y Vision
+
+  Diana nacio de revisar como funcionan otros frameworks SDD (OpenSpec,
+  SpecKit, y en menor medida BMAD-METHOD y AWS Kiro), tomando lo mejor de cada
+  uno y agregando lo que la experiencia real de proyectos en Coca-Cola Company
+  exigia y que ninguno cubria del todo: gobernanza formal por Control de
+  Cambios + Tickets (no solo specs) y compatibilidad con metodologia SCRUM.
+
+  Diana esta disenada para operar en tres modos (campo `motor_sdd` en
+  `integration-profile.md`): `diana_only` (standalone), `speckit` u `openspec`
+  (delega ejecucion a un engine existente), o `hybrid` (combina varios). Por
+  diseno, esto significa que Diana puede terminar siendo **competencia
+  directa** de OpenSpec/SpecKit (cuando el usuario elige `diana_only`) o
+  **companera de equipo** de ambos (cuando elige `hybrid`) - nunca una cosa
+  excluye a la otra; la decision es siempre del usuario, nunca impuesta por
+  Diana.
+
+  ## Nota de Bootstrap (por que este repo usa OpenSpec y no Diana)
+
+  Mientras el ciclo de vida propio de Diana (specify->clarify->plan->tasks->
+  implement, con sus agentes y quality gates) termina de madurar y probarse,
+  el desarrollo de ESTE MISMO repositorio (el meta-proyecto que construye a
+  Diana) se gobierna con OpenSpec, no con Diana. Es una decision deliberada
+  para evitar una dependencia circular (no se puede exigir que Diana ya
+  funcione para poder construir Diana). Cuando el ciclo de vida de Diana este
+  suficientemente probado via dogfooding en los proyectos demo
+  (`projects/diana/pwa`, `projects/diana/rest-api`), se evaluara migrar la
+  gobernanza de este repo a `motor_sdd: diana_only` o `hybrid`.
+
+  ## Estructura del Proyecto (monorepo multi-producto)
+
+  ```
+  ai-dr.fic/
+  ├── .github/, .agents/, .opencode/   # tooling de agentes del propio repo
+  ├── openspec/                        # gobierna el desarrollo de este repo (bootstrap)
+  ├── docs/                            # domain.md, issue-tracker.md, triage-labels.md
+  ├── README.md, AGENTS.md, CHANGELOG.md
+  └── projects/
+      └── diana/                       # todo lo de Diana vive agrupado aqui
+          ├── engine/                  # motor Diana: fuente unica de verdad (antes "core")
+          │   ├── constitution.md, checklists/, rules/, prompts/, scripts/
+          │   ├── templates/           # constitution, spec, plan, meta, team-*, integration-profile, engine-handoff
+          │   ├── knowledge/           # local/{agents,domains,governance,methodology,patterns,technical,glossaries}, skills/, indexes/
+          │   └── integrations/github/ # agents/diana.*.agent.md + prompts/diana.*.prompt.md (comandos VS Code Copilot)
+          ├── cli/                     # instalador publicable (paquete pip)
+          │   ├── pyproject.toml, hatch_build.py, MANIFEST.in, setup.py
+          │   └── src/diana_cli/       # main.py: diana init --target --force --skip-actions
+          ├── pwa/                     # demo web construida con Diana (dogfooding)
+          └── rest-api/                # demo de servicios Express construida con Diana (dogfooding)
+  ```
+
+  Un producto futuro distinto a Diana viviria en `projects/<producto>/` sin
+  tocar nada de `projects/diana/`.
+
+  Nota de nombre: se eligio "engine" (motor) en vez de "core" porque Diana ya
+  se autodenomina "motor SDD" en su propia documentacion (`motor_sdd`,
+  `knowledge` README), y porque "core" ya esta ocupado por otro significado
+  en el ecosistema: `diana-sdk-core` (en proyectos cliente) es el proyecto
+  Dashboard/UI del SDK, NO el motor. Evitar reusar "core" para no confundir
+  ambos conceptos.
+
+  Nota de empaquetado: `engine/` es la UNICA fuente editable del contenido de
+  Diana. `cli/` NUNCA debe tener su propio contenido editado a mano; en build
+  time debe tomar el contenido de `../engine` (force-include relativo de
+  hatchling, o script de sync) para generar el `assets/` que termina en el
+  wheel publicado.
+
+  ## Que instala el CLI en un proyecto cliente
+
+  `diana init` copia: `.drfic/readme.md`, `.drfic/diana-sdk/sdk/diana/**`
+  (contenido de `projects/diana/engine`), `.drfic/diana-sdk/projects/
+  knowledge/indexes/projects-knowledge-radar.yaml`, y (salvo `--skip-actions`)
+  `.github/prompts/diana.*.prompt.md` + `.github/agents/diana.*.agent.md`
+  (contenido de `projects/diana/engine/integrations/github`). Incluye
+  sincronizacion Speckit->Diana TEAM (`diana.sync`) y centro de ayuda
+  (`diana.help`). Acciones de usuario disponibles: `diana.change`,
+  `diana.constitution`, `diana.help`, `diana.integrate`, `diana.knowledge`,
+  `diana.new`, `diana.plan`, `diana.skills`, `diana.specify`, `diana.sync`,
+  `diana.tasks`, `diana.teams`, `diana.ticket`.
+
+  ## Gobernanza y Ciclo de Vida de Diana (ya vinculante, no reinventar)
+
+  Documentado en `projects/diana/engine/rules/governance-and-naming.md` y
+  `rules/lifecycle.md`: "La gobernanza pertenece al proyecto. El canon
+  pertenece a la iniciativa. Speckit solo ejecuta canon." Tres eventos de
+  origen validos (Control de Cambios, Ticket, Decision estrategica); tres
+  tipos de iniciativa (Greenfield/Brownfield/Bugfix) que determinan que
+  artefactos nacen; IDs obligatorios `<NNN>-<PROYECTO>-{CC,TKT,SPEC,PLAN,TASK}`
+  y `<PROYECTO>-CONSTITUTION`, con consecutivos independientes por proyecto.
+
+  ## Agentes Diana (roster, ver `knowledge/local/agents/001-agent-roles-deep.md`)
+
+  PICCOLO (Spec Writer), BULMA (Plan Architect), VEGETA (Canon Reviewer),
+  KRILIN (Task Generator), GOHAN (QA Validator), GOKU (Copilot). TRUNKS
+  (Evolution/Refactor) esta documentado pero sin prompt file implementado aun
+  - gap conocido, no asumir que existe al disenar features que dependan de el.
+
+  ## Convenciones
+
+  Idioma: espanol para explicaciones, ingles para terminos tecnicos y nombres
+  propios (consistente con `knowledge/local/glossaries/001-diana-terms.md`).
+  Redaccion normativa de specs/constituciones: MUST/SHOULD/MAY (RFC 2119),
+  per `knowledge/local/governance/001-constitution-design-patterns.md`.
+
+rules:
+  proposal:
+    - Declarar explicitamente si el cambio afecta `projects/diana/engine`
+      (motor), `projects/diana/cli` (instalador/empaquetado), un demo
+      (`pwa`/`rest-api`), o varios a la vez
+    - Verificar alineacion con `rules/governance-and-naming.md` y
+      `rules/lifecycle.md` ya vinculantes del propio SDK; no reinventar IDs,
+      tipos de iniciativa ni jerarquia de gobernanza en la propuesta
+    - Si el cambio modifica contenido de `engine` que se empaqueta en el CLI,
+      declarar el impacto de version SemVer en `pyproject.toml` y si rompe
+      scaffolds ya instalados en proyectos cliente existentes
+    - 'Declarar el modo de integracion objetivo (`motor_sdd`: diana_only /
+      speckit / openspec / hybrid) cuando el cambio afecte interoperabilidad'
+    - Si el cambio agrega o modifica un agente (PICCOLO/BULMA/VEGETA/KRILIN/
+      GOHAN/GOKU/TRUNKS) o una accion `diana.*`, declarar su rol en el ciclo
+      de vida (specify/clarify/plan/tasks/implement) y su prompt file
+    - Mientras este repositorio gobierne su propio desarrollo con OpenSpec
+      (bootstrap), no introducir dependencias circulares que asuman que Diana
+      ya funciona para poder construir Diana
+  specs:
+    - Expresar comportamiento con lenguaje normativo MUST/SHOULD/MAY (RFC
+      2119) y escenarios Given/When/Then
+    - Para specs que definan comportamiento del motor Diana, declarar
+      explicitamente que agente(s) lo ejecutan y en que fase del ciclo
+      (specify/clarify/plan/tasks/implement)
+    - Para specs del CLI (`diana_cli`), declarar el/los subcomando(s)
+      afectados y su contrato (flags, exit codes, estructura de archivos
+      generados en el proyecto destino)
+    - No redefinir en una spec las reglas ya vinculantes de
+      `projects/diana/engine/rules/*.md`; referenciarlas, no duplicarlas
+  design:
+    - Documentar explicitamente que archivos de `projects/diana/engine/
+      {rules,templates,prompts,knowledge,checklists,scripts,integrations}` se
+      ven afectados, para trazabilidad
+    - Si el cambio afecta contenido empaquetado, documentar como
+      `projects/diana/cli` obtiene ese contenido en build time (ruta relativa
+      a `../engine` o script de sync) y validar con un build real antes de
+      cerrar el cambio
+    - Si el cambio toca interoperabilidad (modo hybrid), usar las
+      equivalencias de terminos ya documentadas en
+      `knowledge/local/glossaries/001-diana-terms.md` en vez de inventar
+      vocabulario paralelo
+    - Mantener la arquitectura de conocimiento en capas (engine SDK-level /
+      cross-project / proyecto especifico) sin aplanar niveles
+  tasks:
+    - Incluir una tarea de validacion de empaquetado (build del paquete +
+      instalacion local + `diana init` en un proyecto de prueba limpio)
+      cuando el cambio toque `engine` o `cli`
+    - Hacer bump de version SemVer en `pyproject.toml` cuando cambie
+      comportamiento visible del CLI o la estructura instalada en clientes
+    - Actualizar los indices de knowledge (`indexes/master-index.md` y
+      afines) impactados por el cambio
+    - No introducir breaking changes al scaffold ya instalado
+      (`.drfic/diana-sdk/**`) sin una nota de migracion explicita para
+      proyectos cliente existentes

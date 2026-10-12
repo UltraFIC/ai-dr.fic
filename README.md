@@ -1,60 +1,24 @@
-# Diana SDK Installer
+# ai-dr.fic
 
-Diana SDK Installer: CLI instalable por `uvx` para inicializar Diana SDK en cualquier proyecto desde cero.
+Monorepo oficial de DR.FIC. Primer y unico producto hoy: **DIANA**, el
+framework de Spec-Driven Development propio (ver `openspec/config.yaml` para
+el contexto completo de vision, estructura y reglas).
 
-## Uso
+## Estructura
 
-El paquete está en la raíz del repositorio oficial; no se necesita `#subdirectory`.
-
-```bash
-uvx --from "diana-sdk-installer @ git+https://github.com/UltraFIC/ai-dr.fic.git@v0.1.5" diana init
+```
+projects/
+└── diana/
+    ├── engine/     # motor Diana: fuente unica de verdad (rules, templates, prompts, knowledge, checklists, scripts)
+    ├── cli/        # instalador publicable (paquete pip `diana-sdk-installer`) - ver projects/diana/cli/README.md
+    ├── pwa/        # demo web construida con Diana (dogfooding)
+    └── rest-api/   # demo de servicios Express construida con Diana (dogfooding)
 ```
 
-Si quieres siempre la última versión de la rama principal:
+Un producto futuro distinto a Diana viviria en `projects/<producto>/` sin
+tocar nada de `projects/diana/`.
 
-```bash
-uvx --from "diana-sdk-installer @ git+https://github.com/UltraFIC/ai-dr.fic.git@main" diana init
-```
+## Instalar Diana en un proyecto
 
-La forma con `diana-sdk-installer @ ...` es la más robusta porque le indica a `uv` cuál es el paquete exacto a instalar.
-
-## Comandos
-
-- `diana init` - instala assets base de Diana en el proyecto destino.
-
-## Opciones de `diana init`
-
-- `--target <path>`: ruta destino (default: directorio actual)
-- `--force`: sobrescribe archivos instalados por Diana
-- `--skip-actions`: omite copia de `.github/prompts` y `.github/agents`
-
-## Estructura instalada
-
-- `.drfic/readme.md`
-- `.drfic/diana-sdk/sdk/diana/**`
-- `.drfic/diana-sdk/projects/knowledge/indexes/projects-knowledge-radar.yaml`
-- `.github/prompts/diana.*.prompt.md` (si no se usa `--skip-actions`)
-- `.github/agents/diana.*.agent.md` (si no se usa `--skip-actions`)
-
-Incluye soporte de sincronizacion de tareas Speckit -> Diana TEAM:
-- Prompt/agent: `diana.sync`
-- Script local: `.drfic/diana-sdk/sdk/diana/scripts/powershell/diana-sync-team.ps1`
-
-Incluye centro de ayuda de Diana:
-- Prompt/agent: `diana.help`
-- Cobertura: sintaxis de comandos, tutorial SDD y guia de sincronizacion.
-
-Incluye el set actual completo de acciones Diana instalables:
-- `diana.change`
-- `diana.constitution`
-- `diana.help`
-- `diana.integrate`
-- `diana.knowledge`
-- `diana.new`
-- `diana.plan`
-- `diana.skills`
-- `diana.specify`
-- `diana.sync`
-- `diana.tasks`
-- `diana.teams`
-- `diana.ticket`
+Ver [`projects/diana/cli/README.md`](projects/diana/cli/README.md) para el
+comando `uvx` exacto y las opciones de `diana init`.

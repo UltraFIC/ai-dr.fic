@@ -1,0 +1,43 @@
+[build-system]
+requires = ["hatchling>=1.24.2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "diana-sdk-installer"
+version = "0.1.5"
+description = "Bootstrap installer for DR.FIC Diana SDK"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+  { name = "DR.FIC" }
+]
+license = { text = "Proprietary" }
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Operating System :: OS Independent"
+]
+
+[project.scripts]
+diana = "diana_cli.main:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/diana_cli"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"assets" = "assets"
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "src/**",
+  "assets/**",
+  "pyproject.toml",
+  "README.md",
+  "CHANGELOG.md"
+]
+
+[tool.hatch.build.hooks.custom]
+# Stages ../engine (fuente unica de verdad de Diana) into a local assets/
+# folder before hatchling packages it. assets/ here is a build artifact,
+# never edited by hand and never committed (ver .gitignore).
+path = "hatch_build.py"
