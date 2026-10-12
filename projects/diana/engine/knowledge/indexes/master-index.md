@@ -3,8 +3,8 @@
 > **Para Speckit**: Lee este archivo al inicio de Phase 0 para enriquecer tu contexto con conocimiento profundo del motor Diana.
 > Si un tema no está cubierto aquí, continúa con tu metodología de investigación normal.
 
-**Versión**: 0.2.0  
-**Última actualización**: 2026-05-23  
+**Versión**: 0.3.0  
+**Última actualización**: 2026-10-11  
 **Alcance**: SDK-level (cross-proyecto)
 
 ---
@@ -15,7 +15,7 @@
 
 | ID | Archivo | Descripción | Relevante para |
 |----|---------|-------------|---------------|
-| SDK-M-001 | `local/methodology/001-sdd-lifecycle.md` | Ciclo completo SDD con Diana | specify, plan, tasks, implement |
+| SDK-M-001 | `local/methodology/001-sdd-lifecycle.md` | Ciclo completo SDD con Diana: eventos de origen, tipos de iniciativa, fases specify→implement, quality gates, modos standalone/híbrido y comparativa con OpenSpec/Spec Kit/Kiro/BMAD | specify, plan, tasks, implement |
 | SDK-M-002 | `local/methodology/002-sdd-quality-gates-deep.md` | Quality gates profundos del ciclo SDD | plan, tasks, implement |
 | SDK-M-003 | `local/methodology/003-traceability-patterns.md` | Patrones de trazabilidad entre artefactos canónicos | todas las acciones |
 
@@ -23,14 +23,14 @@
 
 | ID | Archivo | Descripción | Relevante para |
 |----|---------|-------------|---------------|
-| SDK-A-001 | `local/agents/001-agent-roles-deep.md` | Capacidades profundas de PICCOLO, BULMA, VEGETA, KRILIN, GOHAN, GOKU, TRUNKS | plan, tasks |
+| SDK-A-001 | `local/agents/001-agent-roles-deep.md` | Capacidades profundas de PICCOLO, BULMA, VEGETA, KRILIN, GOHAN, GOKU, TRUNKS: cuándo actúan, entradas/salidas, prohibiciones, y comparación con rosters de BMAD/Spec Kit/Kiro | plan, tasks |
 | SDK-A-002 | `local/agents/002-agent-capabilities-matrix.md` | Matriz de capacidades: acciones → skills → agentes narrativos | todas las acciones |
 
 ### Patrones Genéricos
 
 | ID | Archivo | Descripción | Relevante para |
 |----|---------|-------------|---------------|
-| SDK-P-001 | `local/patterns/001-speckit-integration-patterns.md` | Cómo integrar cualquier dominio con Speckit | plan |
+| SDK-P-001 | `local/patterns/001-speckit-integration-patterns.md` | Cómo integrar cualquier dominio con Speckit/OpenSpec, arquitectura de knowledge en 3 capas, patrón de prompts de agentes, y diseño standalone/híbrido vía `integration-profile.md` | plan |
 | SDK-P-002 | `local/patterns/002-multi-team-coordination.md` | Patrones de coordinación multi-equipo SDD | teams, integrate |
 | SDK-P-003 | `local/patterns/003-change-management-patterns.md` | Patrones profesionales de gestión de cambios | change, ticket |
 | SDK-P-004 | `local/patterns/004-scaffolding-patterns.md` | Patrones de scaffolding y estructura base Diana | new |
@@ -72,7 +72,7 @@
 
 | ID | Archivo | Descripción | Relevante para |
 |----|---------|-------------|---------------|
-| SDK-G-001 | `local/glossaries/001-diana-terms.md` | Glosario canónico Diana/SDD/Speckit | todos |
+| SDK-G-001 | `local/glossaries/001-diana-terms.md` | Glosario canónico Diana/SDD/Speckit, incluyendo equivalencias de términos con OpenSpec/Spec Kit/Kiro/BMAD para interoperabilidad | todos |
 
 ---
 
@@ -115,13 +115,13 @@ Ver `remote/sources.md` para el catálogo completo de fuentes externas (Speckit,
 
 | Área | Estado | Notas |
 |------|--------|-------|
-| Metodología SDD | 🟢 Completo | 3 documentos (lifecycle, quality gates, traceability) |
-| Agentes | 🟢 Completo | 2 documentos (roles deep, capabilities matrix) |
-| Patrones genéricos | 🟢 Completo | 6 documentos (Speckit, multi-team, change, scaffolding, orchestration, sync) |
+| Metodología SDD | 🟢 Completo | 3 documentos (lifecycle, quality gates, traceability). Lifecycle (001) generado 2026-10-11; gaps abiertos: falta comando de reconciliación spec↔código, TRUNKS sin prompt file |
+| Agentes | 🟢 Completo | 2 documentos (roles deep, capabilities matrix). Roles deep (001) generado 2026-10-11; gap abierto: TRUNKS no tiene prompt file implementado en `prompts/` |
+| Patrones genéricos | 🟢 Completo | 6 documentos (Speckit, multi-team, change, scaffolding, orchestration, sync). Speckit integration (001) generado 2026-10-11; gaps abiertos: hooks/extensiones no implementados, sin ADR explícito, sin guía de migración entre `motor_sdd` |
 | Gobernanza | 🟢 Completo | 3 documentos (constitution, tickets, radar) |
 | Técnico | 🟢 Completo | 5 documentos (CLI, packaging, git, security, observability) |
 | Dominios ingeniería | 🟢 Completo | 8 documentos (requirements, architecture, tasks, knowledge, testing, risk, teams, docs) |
-| Glosario SDK | 🟡 Esqueleto | Requiere `/diana.knowledge` para enriquecer |
+| Glosario SDK | 🟢 Completo | Generado 2026-10-11, incluye mapeo de términos con frameworks SDD pares |
 | Skills SDK | 🟢 Completo | 22 skills (2 existentes + 20 nuevas) |
 | Fuentes remotas | 🟢 Completo | Catálogo con 14+ fuentes registradas |
 
