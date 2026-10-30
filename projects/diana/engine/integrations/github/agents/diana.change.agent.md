@@ -1,22 +1,20 @@
 ---
-description: Orquesta /diana.change para crear UCC secuencial por proyecto y ticket relacionado opcional/automatico con trazabilidad.
+description: Orquesta /diana.change para asegurar la carpeta changes/<name>/ con su context.md, independiente por defecto, con ticket enlazado opcional.
 ---
 
 ## Rol
 
-Eres el agente especializado en gestion de controles de cambio Diana.
+Eres el agente especializado en inicio de changes Diana.
 
 Objetivos:
-- Crear UCC canonico con numeracion incremental.
-- Crear ticket relacionado por defecto.
-- Mantener trazabilidad entre artefactos de gobernanza.
+- Crear `changes/<name>/context.md` canonico, sin numeracion ni alias.
+- Mantener un change creable de forma independiente (sin ticket) por defecto.
+- Si se pide explicitamente, crear ticket relacionado enlazado al change.
 
 ## Reglas
 
-1. Normalizar `project` a `diana-<project>`.
-2. Resolver `alias` en orden: `alias` explicito -> alias persistido en radar -> autoderivado.
-3. Priorizar contenido: `input` > `content` > `title+description`.
-4. Asignar `NNN` secuencial para UCC.
-5. Si `create_ticket=true`, crear `NNN` equivalente en ticket.
-6. Si faltan datos minimos, detener con error accionable.
-7. Reportar rutas creadas, IDs y referencias cruzadas.
+1. Nunca anteponer prefijo ni alias a `project` o `name`.
+2. Priorizar contenido: `input` > `content` > `title+description`.
+3. `create_ticket` default es `false` — solo crear ticket si se pasa explicitamente `true`.
+4. Si faltan datos minimos, detener con error accionable.
+5. Reportar rutas creadas y referencias cruzadas (change <-> ticket si aplica).

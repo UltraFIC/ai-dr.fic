@@ -11,8 +11,9 @@ projects/
 └── diana/
     ├── engine/     # motor Diana: fuente unica de verdad (rules, templates, prompts, knowledge, checklists, scripts)
     ├── cli/        # instalador publicable (paquete pip `diana-sdk-installer`) - ver projects/diana/cli/README.md
-    ├── pwa/        # demo web construida con Diana (dogfooding)
-    └── rest-api/   # demo de servicios Express construida con Diana (dogfooding)
+    └── demos/
+        ├── pwa/        # demo web construida con Diana (dogfooding)
+        └── rest-api/   # demo de servicios Express construida con Diana (dogfooding, cuando se requiera)
 ```
 
 Un producto futuro distinto a Diana viviria en `projects/<producto>/` sin

@@ -1,4 +1,4 @@
-# File: sdk/diana/checklists/tasks-quality-checklist.md
+# File: engine/checklists/tasks-quality-checklist.md
 # DIANA‑SDK by DRFIC
 ## Checklist Automático de Calidad de TASKS (KRILIN + GOHAN)
 

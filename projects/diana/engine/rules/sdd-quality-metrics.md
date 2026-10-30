@@ -127,7 +127,7 @@ Agente responsable:
 Mide si cada iniciativa tiene origen claro.
 
 Indicadores:
-- meta.md completo
+- `context.md` completo (antes `meta.md`)
 - Referencias explícitas a tickets / CR
 - Tipo de iniciativa declarado
 

@@ -1,9 +1,9 @@
-# File: sdk/diana/checklists/sdd-quality-gate.md
+# File: engine/checklists/sdd-quality-gate.md
 # DIANA‑SDK by DRFIC
 ## SDD Quality Gate (Checklist Automático de Entrada)
 
 Propósito:
-Este checklist determina si una iniciativa está lista para:
+Este checklist determina si un change está listo para:
 - /speckit.plan
 - /speckit.tasks
 - implementación
@@ -17,11 +17,11 @@ Instrucciones:
 
 ## A. Identidad y Estructura (BLOCKER)
 
-[ ] Existe folder de iniciativa con nombre válido: NNN-descripcion-corta  
-[ ] Existe meta.md dentro de la iniciativa  
-[ ] Existe spec.md dentro de la iniciativa  
-[ ] Existe plan.md dentro de la iniciativa (puede ser borrador si aún no se ejecuta plan oficial)  
-[ ] Si es proyecto nuevo: existe constitution.md del proyecto o constitution.md en la iniciativa fundacional  
+[ ] Existe folder de change con nombre válido (1-2 palabras significativas, sin numeración ni alias)  
+[ ] Existe context.md dentro del change  
+[ ] Existe spec.md dentro del change  
+[ ] Existe plan.md dentro del change (puede ser borrador si aún no se ejecuta plan oficial)  
+[ ] Si es proyecto nuevo: existe constitution.md del proyecto  
 [ ] Los artefactos generados (si existen) están dentro de speckit/ y no mezclados con el canon
 
 ---
@@ -39,7 +39,7 @@ Instrucciones:
 
 [ ] spec.md define el “qué” y NO incluye implementación  
 [ ] plan.md define el “cómo” y NO redefine alcance funcional  
-[ ] meta.md contiene tickets/CR como trazabilidad, pero NO los convierte en requisitos  
+[ ] context.md contiene tickets/changes relacionados como trazabilidad, pero NO los convierte en requisitos  
 [ ] Si hay conflicto entre documentos, está resuelto a favor de: constitución > spec > plan > derivados
 
 ---

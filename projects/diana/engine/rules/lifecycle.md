@@ -1,3 +1,4 @@
+
 # DIANA‑SDK by DRFIC
 ## Reglas Oficiales de Ciclo de Vida (Lifecycle)
 
@@ -16,12 +17,14 @@ Su objetivo es:
 
 Estas reglas son obligatorias para todos los proyectos que adopten DIANA‑SDK.
 
+> **Nota de versión**: la lógica de decisión de este documento (qué tipo de change es, qué artefactos nacen) **no cambia**. Lo único que cambia es dónde viven esos artefactos: ya no bajo `initiatives/<NNN-alias>/`, sino bajo `changes/<name>/` (para `spec.md`/`plan.md`/`tasks.md`); y los campos que antes vivían en `meta.md` ahora son secciones dentro de `changes/<name>/context.md`. `constitution.md` sigue en la raíz del proyecto, solo sin prefijo de alias.
+
 ---
 
 ## 2. Principio Rector del Ciclo de Vida
 
-> **No todo cambio genera una especificación.**  
-> **No toda especificación genera una constitución.**  
+> **No todo cambio genera una especificación.**
+> **No toda especificación genera una constitución.**
 > **Todo lo que se ejecuta debe tener canon explícito.**
 
 El ciclo de vida privilegia estabilidad del canon sobre velocidad improvisada.
@@ -32,9 +35,9 @@ El ciclo de vida privilegia estabilidad del canon sobre velocidad improvisada.
 
 En DIANA‑SDK existen únicamente tres eventos de origen válidos:
 
-1. Control de cambios (Change Request)
-2. Ticket de usuario
-3. Decisión estratégica explícita
+1. Ticket de usuario
+2. Decisión estratégica explícita
+3. Necesidad de proyecto nuevo (greenfield)
 
 Estos eventos:
 - Pertenecen a la dimensión organizacional
@@ -43,15 +46,15 @@ Estos eventos:
 
 ---
 
-## 4. Tipos de Iniciativa
+## 4. Tipos de Change
 
-Toda iniciativa pertenece exactamente a uno de los siguientes tipos:
+Todo change pertenece exactamente a uno de los siguientes tipos:
 
 - Proyecto nuevo (Greenfield)
 - Evolución o mejora funcional (Brownfield)
 - Corrección de errores (Bugfix)
 
-El tipo de iniciativa **determina qué artefactos nacen**.
+El tipo de change **determina qué artefactos nacen**. Este tipo se declara dentro de la sección "Tipo" de `changes/<name>/context.md` (antes era un campo de `meta.md`).
 
 ---
 
@@ -59,7 +62,7 @@ El tipo de iniciativa **determina qué artefactos nacen**.
 
 ### 5.1 Condiciones
 
-Una iniciativa es considerada proyecto nuevo cuando:
+Un change es considerado proyecto nuevo cuando:
 - No existe sistema previo
 - No existe canon funcional
 - Se requiere definir visión, límites y principios
@@ -69,9 +72,9 @@ Una iniciativa es considerada proyecto nuevo cuando:
 ### 5.2 Artefactos que NACEN
 
 Obligatorios:
-- constitution.md (constitución del proyecto)
-- spec.md (SPEC‑001 canónica)
-- plan.md (plan técnico inicial)
+- `constitution.md` (constitución del proyecto — vive en la raíz del proyecto: `projects/<project>/constitution.md`, sin prefijo de alias)
+- `spec.md` (especificación canónica inicial — vive en `changes/<name>/spec.md`, p. ej. `changes/foundation/spec.md`)
+- `plan.md` (plan técnico inicial — vive en `changes/<name>/plan.md`)
 
 Opcionales:
 - Artefactos de investigación
@@ -81,7 +84,7 @@ Opcionales:
 
 ### 5.3 Artefactos que NO NACEN
 
-- No existen iniciativas previas
+- No existen changes previos
 - No existen specs derivadas
 - No existen tareas históricas
 
@@ -89,10 +92,13 @@ Opcionales:
 
 ### 5.4 Convención recomendada
 
-La iniciativa fundacional debe nombrarse:
+El change fundacional puede nombrarse, por ejemplo:
 
-001-foundation
+```
+foundation
+```
 
+(Sin numeración `NNN`, sin alias — el nombre de carpeta `changes/foundation/` es la identidad completa.)
 
 ---
 
@@ -100,18 +106,18 @@ La iniciativa fundacional debe nombrarse:
 
 ### 6.1 Condiciones
 
-Una iniciativa es evolución funcional cuando:
+Un change es evolución funcional cuando:
 - El sistema ya existe
 - Se solicita nuevo comportamiento o modificación
-- Existe control de cambios y/o tickets asociados
+- Existe un ticket y/o una decisión estratégica asociada
 
 ---
 
 ### 6.2 Artefactos que NACEN
 
 Obligatorios:
-- spec.md (nueva especificación derivada)
-- plan.md (plan técnico de la iniciativa)
+- `spec.md` (nueva especificación derivada — vive en `changes/<name>/spec.md`)
+- `plan.md` (plan técnico del change — vive en `changes/<name>/plan.md`)
 
 Opcionales:
 - Ajustes al modelo de datos
@@ -128,13 +134,14 @@ La constitución existente **se respeta y se referencia**.
 
 ---
 
-### 6.4 Numeración
+### 6.4 Nombre del Change
 
-Cada evolución funcional genera una nueva iniciativa secuencial:
+Cada evolución funcional genera un nuevo change, identificado únicamente por su nombre de carpeta (sin numeración compartida):
 
-002-nueva-funcionalidad
-003-mejora-ia
-
+```
+changes/nueva-funcionalidad/
+changes/mejora-ia/
+```
 
 ---
 
@@ -142,7 +149,7 @@ Cada evolución funcional genera una nueva iniciativa secuencial:
 
 ### 7.1 Condiciones
 
-Una iniciativa es bugfix cuando:
+Un change es bugfix cuando:
 - Existe un ticket de error
 - No cambia el comportamiento esperado
 - El problema es de implementación, no de alcance
@@ -152,8 +159,8 @@ Una iniciativa es bugfix cuando:
 ### 7.2 Artefactos que NACEN
 
 Obligatorios:
-- plan.md (plan técnico correctivo)
-- tasks/ (tareas de corrección)
+- `plan.md` (plan técnico correctivo — vive en `changes/<name>/plan.md`)
+- `tasks.md` (tareas de corrección — vive en `changes/<name>/tasks.md`)
 
 Opcionales:
 - Documento técnico de análisis del bug
@@ -178,6 +185,8 @@ Una constitución solo nace cuando:
 - El proyecto es nuevo
 - O existe un cambio explícito de filosofía, alcance o principios
 
+Vive siempre en `projects/<project>/constitution.md` (raíz del proyecto, nunca dentro de `changes/`).
+
 ---
 
 ### 8.2 Cuándo NO nace una constitución
@@ -195,9 +204,9 @@ La constitución es un evento **raro, consciente y deliberado**.
 
 ### 9.1 Cuándo NACE una especificación
 
-- En proyectos nuevos (SPEC‑001)
+- En proyectos nuevos (`changes/foundation/spec.md`)
 - En cambios funcionales autorizados
-- Cuando el “qué” del sistema cambia
+- Cuando el "qué" del sistema cambia
 
 ---
 
@@ -213,8 +222,9 @@ La constitución es un evento **raro, consciente y deliberado**.
 
 ### 10.1 Cuándo NACE un plan técnico
 
-- Siempre que exista una iniciativa
+- Siempre que exista un change
 - Puede ser humano, generado o híbrido
+- Vive en `changes/<name>/plan.md`
 
 ---
 
@@ -229,37 +239,35 @@ La constitución es un evento **raro, consciente y deliberado**.
 ## 11. Relación con Herramientas (Speckit)
 
 Reglas obligatorias:
-- Speckit solo ejecuta iniciativas
-- Speckit no interpreta tickets ni CR
-- Speckit opera únicamente sobre artefactos canónicos
+- Speckit solo ejecuta changes
+- Speckit no interpreta tickets ni decisiones estratégicas directamente
+- Speckit opera únicamente sobre artefactos canónicos dentro de `changes/<name>/`
 - Speckit no infiere requisitos ausentes
 
 ---
 
-## 12. Meta y Trazabilidad
+## 12. Contexto y Trazabilidad
 
-Toda iniciativa debe incluir un archivo `meta.md` que:
-- Referencie tickets y controles de cambio
+Todo change debe incluir, dentro de su `context.md`, información que:
+- Referencie el ticket relacionado (si aplica)
 - Explique el contexto organizacional
-- Declare el tipo de iniciativa
+- Declare el tipo de change (Greenfield/Brownfield/Bugfix)
 
-El archivo `meta.md` **nunca es ejecutable**.
+Estos campos — antes agrupados en un archivo separado `meta.md` — **ahora viven dentro de `changes/<name>/context.md`** (secciones "Origen" y "Tipo"). Al igual que antes, esta información **nunca es ejecutable** por Speckit.
 
 ---
 
 ## 13. Regla Final del Ciclo de Vida
 
-No todo problema genera una spec.  
-No toda spec genera una constitución.  
+No todo problema genera una spec.
+No toda spec genera una constitución.
 Todo lo que se ejecuta debe respetar el canon.
 
 ---
 
 ## 14. Estado
 
-Este documento define el **ciclo de vida oficial de DIANA‑SDK by DRFIC**  
+Este documento define el **ciclo de vida oficial de DIANA‑SDK by DRFIC**
 y es vinculante para todos los proyectos que adopten este framework.
 
 ---
-
-``

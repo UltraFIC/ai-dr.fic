@@ -34,9 +34,9 @@ La nomenclatura define:
 
 La jerarquía obligatoria es:
 
-DRFIC (organización / programa)  
-→ Proyecto  
-→ Iniciativa  
+DRFIC (organización / programa)
+→ Proyecto
+→ Change
 → Artefactos SDD
 
 Cada nivel tiene responsabilidades distintas y no intercambiables.
@@ -61,80 +61,82 @@ Reglas:
 
 Un proyecto es un producto o sistema con ciclo de vida propio.
 
-Convención obligatoria de nombre:
+**Convención obligatoria de nombre (NUEVO):**
 
-<dominio>-<producto>
+1‑2 palabras significativas, lowercase, sin prefijo forzado.
 
 Ejemplos válidos:
-- diana-investments
-- diana-learning
-- diana-sdk-core
-- diana-analytics
+- inversions
+- market lab -> `market-lab`
+- risk engine -> `risk-engine`
+- sdk core -> `sdk-core`
 
 Reglas:
-- Sin espacios
+- Sin espacios (usar guion si son dos palabras)
 - Sin mayúsculas
 - Sin versiones
 - Sin tickets
+- **(ELIMINADO)** Ya no se exige el prefijo forzado `diana-<proyecto>` ni la convención `<dominio>-<producto>`. El nombre del proyecto es la única identidad; no lleva prefijo de programa ni de dominio.
 
 ---
 
-## 6. Iniciativa (Unidad SDD)
+## 6. Change (Unidad SDD) — antes "Iniciativa"
 
-La iniciativa es la unidad fundamental de trabajo en DIANA‑SDK.
+El **change** es la unidad fundamental de trabajo en DIANA‑SDK. Este concepto reemplaza por completo a la antigua "iniciativa" (`initiatives/<NNN-alias>/`).
 
-Convención obligatoria:
+**Identidad (NUEVO):**
 
-NNN-descripcion-corta
-
-Donde:
-- NNN es un número secuencial (001, 002, 003…)
-- descripcion-corta describe el propósito del cambio
-
-Ejemplos válidos:
-- 001-foundation
-- 002-user-auth
-- 003-chat-ia
-- 004-bugfix-brokers
+La identidad de un change es, exclusivamente, el **nombre de su carpeta** bajo `changes/`: `changes/<name>/`.
 
 Reglas:
-- El número no es versión
-- No usar tickets, CR ni fechas
-- Una iniciativa pertenece a un solo proyecto
+- `<name>`: 1‑2 palabras significativas, lowercase, que describen el propósito del change.
+- **(ELIMINADO)** No existe numeración `NNN-descripcion-corta`. Un change no lleva número secuencial ni alias de proyecto en su nombre.
+- No usar tickets, CR ni fechas en el nombre.
+- Un change pertenece a un solo proyecto.
+
+Ejemplos válidos (antes `001-foundation`, `002-user-auth`, ahora):
+- `foundation`
+- `user-auth`
+- `chat-ia`
+- `fix-login-timeout`
 
 ---
 
-## 7. Archivos Canónicos de una Iniciativa
+## 7. Archivos Canónicos de un Change
 
-Los nombres de archivos dentro de una iniciativa son fijos:
+Los nombres de archivos dentro de `changes/<name>/` son fijos:
 
-meta.md  
-constitution.md (solo si aplica)  
-spec.md  
-plan.md  
+```
+context.md
+spec.md
+plan.md
+tasks.md
+```
 
 Significado:
-- meta.md: contexto organizacional (no ejecutable)
-- constitution.md: reglas del sistema
-- spec.md: autoridad funcional
-- plan.md: autoridad técnica
+- `context.md`: contexto organizacional y de negocio (tipo de change, origen, alcance, riesgos). **No ejecutable.** Reemplaza tanto a la antigua plantilla de UCC como a `meta.md` — **(ELIMINADO)** `meta.md` ya no existe como archivo separado; sus campos ("Tipo de Iniciativa", "Origen Organizacional") ahora son secciones dentro de `context.md`.
+- `spec.md`: autoridad funcional.
+- `plan.md`: autoridad técnica.
+- `tasks.md`: backlog canónico derivado del plan.
+
+`constitution.md` sigue existiendo, pero vive en la **raíz del proyecto** (`projects/<project>/constitution.md`), no dentro de un change — ver sección 8.
 
 ---
 
 ## 8. Proyecto Nuevo vs Mantenimiento
 
 Proyecto nuevo:
-- Se crea constitution.md
-- La iniciativa suele llamarse 001-foundation
+- Se crea `constitution.md` en la raíz del proyecto.
+- El primer change suele llamarse `foundation` (sin número).
 
 Evolución funcional:
-- No se crea nueva constitución
-- Se crea nueva iniciativa
+- No se crea nueva constitución.
+- Se crea un nuevo change.
 
 Corrección de errores:
-- No se crea constitución
-- No se crea spec funcional nueva
-- La iniciativa es técnica
+- No se crea constitución.
+- No se crea `spec.md` funcional nueva.
+- El change es técnico (solo `plan.md`/`tasks.md`).
 
 ---
 
@@ -155,10 +157,9 @@ por compatibilidad con tooling.
 
 ## 10. Regla Final
 
-Proyecto define el sistema.  
-Iniciativa define el cambio.  
-Canon define la verdad.  
+Proyecto define el sistema.
+Change define el cambio.
+Canon define la verdad.
 Herramientas ejecutan, no deciden.
 
 ---
-``

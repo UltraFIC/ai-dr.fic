@@ -1,5 +1,5 @@
 # Diana Team Agent Bootstrap Template
-## <initiative-or-project-name>
+## <change-or-project-name>
 
 ---
 
@@ -19,11 +19,11 @@ Definir el contexto mínimo obligatorio para que los agentes Diana/Speckit cargu
 
 ## Fuentes Globales Obligatorias
 
-1. `.drfic/diana-sdk/projects/knowledge/indexes/projects-knowledge-radar.yaml`
-2. `.drfic/diana-sdk/projects/<project>/knowledge/indexes/skills-manifest.yaml`
-3. `.drfic/diana-sdk/projects/<project>/knowledge/indexes/agent-skill-matrix.yaml`
-4. `.drfic/diana-sdk/projects/<project>/knowledge/indexes/sdd-engine-matrix.yaml`
-5. `.drfic/diana-sdk/sdk/diana/knowledge/indexes/shared-skills-manifest.yaml` (si existe)
+1. `.drfic/diana/projects/registry/indexes/projects-knowledge-radar.yaml`
+2. `.drfic/diana/projects/<project>/capabilities/manifest.yaml`
+3. `.drfic/diana/projects/<project>/capabilities/agent-skill-matrix.yaml`
+4. `.drfic/diana/projects/<project>/capabilities/sdd-engine-matrix.yaml`
+5. `.drfic/diana/engine/skills/` (escanear directamente el directorio, sin manifest paralelo)
 
 ---
 

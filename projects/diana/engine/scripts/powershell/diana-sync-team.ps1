@@ -9,7 +9,7 @@ param(
     [string]$Mode = "dry-run",
 
     [string]$Project = "diana-inversions",
-    [string]$Initiative = "001-inversions",
+    [string]$Change = "001-inversions",
 
     [switch]$CloseOnly
 )
@@ -19,7 +19,7 @@ if (-not $CloseOnly.IsPresent) {
 }
 
 $repoRoot = Get-Location
-$teamTasksPath = Join-Path $repoRoot ".drfic/diana-sdk/projects/$Project/initiatives/$Initiative/teams/$Team/tasks.md"
+$teamTasksPath = Join-Path $repoRoot ".drfic/diana/projects/$Project/changes/$Change/teams/$Team/tasks.md"
 
 if ($Feature -like "specs/*") {
     $featureTasksPath = Join-Path $repoRoot "$Feature/tasks.md"

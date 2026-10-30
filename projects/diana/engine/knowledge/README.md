@@ -10,53 +10,41 @@ Su contenido aplica a **todos los proyectos** gobernados por Diana, sin importar
 
 ## Estructura
 
+Plano, por categoría, sin índice paralelo ni split local/remoto (las fuentes externas viven dentro de cada doc, sección "Fuentes Externas"):
+
 ```
 knowledge/
-├── local/
-│   ├── methodology/     → Cómo funciona SDD, el ciclo de vida de Diana, fases de Speckit
-│   ├── agents/          → Capacidades profundas de cada agente Diana
-│   ├── patterns/        → Patrones genéricos aplicables a cualquier dominio
-│   └── glossaries/      → Glosario canónico del SDK (términos Diana/Speckit)
-├── remote/
-│   └── sources.md       → Catálogo de fuentes externas sobre SDD, AI agents, metodología
-├── skills/
-│   └── NNN-SDK-ABREV.md → Skills compartidas reutilizables entre proyectos
-└── indexes/
-    ├── master-index.md  → Índice principal (Speckit lee esto en Phase 0)
-    ├── by-agent.md      → Qué agente usa qué documento de conocimiento
-    └── shared-skills-manifest.yaml → Catálogo de skills compartidas SDK
+├── methodology/   → Cómo funciona SDD, el ciclo de vida de Diana, fases de Speckit
+├── agent-design/  → Capacidades profundas de cada agente Diana (docs de referencia; distinto de engine/agents/, que son las definiciones de los roles)
+├── patterns/      → Patrones genéricos aplicables a cualquier dominio
+├── glossaries/    → Glosario canónico del SDK (términos Diana/Speckit)
+├── governance/     → Constituciones, tickets, radar
+├── technical/      → CLI, packaging, git, seguridad, observabilidad
+└── domains/        → Ingeniería de requisitos, arquitectura, testing, etc.
 ```
 
-## Reuso Cross-Proyecto
-
-Las skills generales (frameworks, metodologías, prácticas transversales) deben vivir en este nivel SDK.
-
-Regla de consumo:
-1. Cargar skills compartidas SDK.
-2. Aplicar override de proyecto solo si hay restricciones de dominio.
-3. Registrar trazabilidad de overrides en el manifest del proyecto.
+Las skills propias del SDK (frameworks, metodologías, prácticas transversales reutilizables entre proyectos) **no viven aquí** — son un concepto hermano en `engine/skills/` (ver ese directorio), referenciadas desde cada doc de knowledge donde aplique.
 
 ## Cómo usa Speckit este conocimiento
 
 Durante `/speckit.plan` Phase 0, Speckit:
-1. Lee `indexes/master-index.md`
-2. Carga los documentos referenciados relevantes para la feature activa
-3. Identifica gaps no cubiertos por el conocimiento local
-4. Para los gaps: ejecuta su propia investigación (razonamiento + fuentes)
-5. El conocimiento local **enriquece** pero nunca **reemplaza** la metodología de Speckit
+1. Escanea directamente el árbol `knowledge/<categoría>/` relevante para la feature activa (sin índice intermedio que mantener).
+2. Identifica gaps no cubiertos por el conocimiento local.
+3. Para los gaps: ejecuta su propia investigación (razonamiento + fuentes).
+4. El conocimiento local **enriquece** pero nunca **reemplaza** la metodología de Speckit.
 
 ## Cómo generar conocimiento
 
-Usa el comando `/diana.knowledge` desde VS Code Copilot Chat:
+Usa el comando `/diana.knowledge`:
 
 ```
-/diana.knowledge topic="sdd-lifecycle" scope="sdk" type="local"
+/diana.knowledge topic="sdd-lifecycle" scope="sdk"
 ```
 
 Ver `.github/prompts/diana.knowledge.prompt.md` para documentación completa.
 
 ## Convenciones de nombres
 
-- Archivos: `NNN-nombre-descriptivo.md` (NNN = número de orden 001, 002...)
-- Idioma: inglés para términos técnicos, español para explicaciones (bilingual-friendly)
-- Encabezado obligatorio: `# [Tema] — Diana SDK Knowledge`
+- Archivos: `nombre-descriptivo.md` plano, sin numeración ni prefijo.
+- Idioma: inglés para términos técnicos, español para explicaciones (bilingual-friendly).
+- Encabezado obligatorio: `# [Tema] — Diana SDK Knowledge`.

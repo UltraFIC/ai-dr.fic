@@ -28,7 +28,7 @@ class CustomBuildHook(BuildHookInterface):
         if assets_dir.exists():
             shutil.rmtree(assets_dir)
 
-        core_target = assets_dir / "drfic" / "diana-sdk" / "sdk" / "diana"
+        core_target = assets_dir / "drfic" / "diana" / "engine"
         core_target.mkdir(parents=True, exist_ok=True)
         for item in engine_dir.iterdir():
             if item.name == "integrations":

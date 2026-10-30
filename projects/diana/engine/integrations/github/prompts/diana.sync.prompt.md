@@ -18,9 +18,9 @@ description: Reconciliacion manual de estados de tareas entre features de SpecKi
 |-----------|---------|---------|-------------|
 | action | tasks | tasks | Tipo de reconciliacion |
 | mode | dry-run | apply | dry-run | Simulacion o aplicacion real |
-| scope | project | initiative | project | Nivel de ejecucion |
-| project | id en projects-knowledge-radar | diana-inversions | Proyecto objetivo |
-| initiative | id de iniciativa | 001-inversions | Iniciativa objetivo |
+| scope | project | change | project | Nivel de ejecucion |
+| project | id en projects-knowledge-radar | inversions | Proyecto objetivo |
+| name | string (nombre de change ya existente) | auto-detect | Change objetivo |
 | team | TEAM-XX | null | Filtra reconciliacion por equipo |
 | feature | slug o carpeta specs/* | null | Filtra reconciliacion por feature Speckit |
 | since | fecha ISO8601 | null | Reconciliacion incremental desde fecha |
@@ -31,7 +31,7 @@ description: Reconciliacion manual de estados de tareas entre features de SpecKi
 
 Permitir una accion manual y controlada para actualizar estado de tareas en:
 
-1. Backlog canonico global Diana (`001-*-tasks.md`).
+1. Backlog canonico global Diana (`tasks.md` del change).
 2. Slices por equipo (`speckit/team-task-allocation.md` y derivados).
 
 La reconciliacion se basa en estados observados en features de SpecKit, preservando como autoridad de IDs al canon Diana.
@@ -58,11 +58,11 @@ Para sincronizar estado Speckit -> TEAM de forma reproducible:
 
 1. Dry-run
 
-`pwsh scripts/diana-sync-team.ps1 -Team TEAM-01 -Feature 002-team-01-dashboard-brokers -Mode dry-run`
+`pwsh scripts/diana-sync-team.ps1 -Change mfa-accesos-criticos -Team TEAM-01 -Feature 002-team-01-dashboard-brokers -Mode dry-run`
 
 2. Apply
 
-`pwsh scripts/diana-sync-team.ps1 -Team TEAM-01 -Feature 002-team-01-dashboard-brokers -Mode apply`
+`pwsh scripts/diana-sync-team.ps1 -Change mfa-accesos-criticos -Team TEAM-01 -Feature 002-team-01-dashboard-brokers -Mode apply`
 
 Notas:
 - El script aplica cierre de checkboxes en team tasks solo cuando todas las tareas Speckit mapeadas al ID canonico estan en `[x]`.
@@ -70,10 +70,10 @@ Notas:
 
 ## Fuentes Oficiales Obligatorias
 
-1. `.drfic/diana-sdk/projects/<project>/initiatives/<initiative>/001-inv-tasks.md`
-2. `.drfic/diana-sdk/projects/<project>/initiatives/<initiative>/speckit/team-task-allocation.md`
+1. `.drfic/diana/projects/<project>/changes/<name>/tasks.md`
+2. `.drfic/diana/projects/<project>/changes/<name>/speckit/team-task-allocation.md`
 3. `specs/*/tasks.md` (features Speckit de equipos)
-4. `.drfic/diana-sdk/projects/<project>/initiatives/<initiative>/integrations/integration-profile.md`
+4. `.drfic/diana/projects/<project>/changes/<name>/integrations/integration-profile.md`
 
 ## Salidas Obligatorias
 

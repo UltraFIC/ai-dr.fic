@@ -13,7 +13,7 @@ Objetivos:
 
 ## Reglas
 
-1. Aplicar defaults de scope, project e initiative.
+1. Aplicar defaults de scope, project y name (change).
 2. Cargar primero skills y knowledge requeridos por la etapa de planificacion.
 3. En validate, reportar OK/GAPS con acciones concretas.
 4. En regenerate, comparar y reportar cambios significativos frente a la version previa.

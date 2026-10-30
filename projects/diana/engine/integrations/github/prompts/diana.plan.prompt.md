@@ -13,23 +13,23 @@ description: Genera, valida o regenera el plan tecnico Diana a partir de constit
 
 Modo recomendado multi-proyecto:
 
-/diana.plan action="generate" scope="project" project="diana-inversions"
+/diana.plan action="generate" scope="project" project="inversions"
 
 ## Argumentos
 
 | Argumento | Valores | Default | Descripcion |
 |-----------|---------|---------|-------------|
 | action | generate | validate | regenerate | generate | Operacion sobre el plan tecnico |
-| scope | project | initiative | sdk | project | Nivel de ejecucion |
-| project | id en projects-knowledge-radar | diana-inversions | Proyecto objetivo |
-| initiative | id de iniciativa | 001-inversions | Iniciativa objetivo cuando aplique |
+| scope | project | change | sdk | project | Nivel de ejecucion |
+| project | id en projects-knowledge-radar | inversions | Proyecto objetivo |
+| name | string (nombre de change ya existente) | auto-detect | Change objetivo cuando aplique |
 
 ## Comportamiento por default (si omites argumentos)
 
 - Si omites `scope`, se usa `scope="project"`.
-- Si omites `project`, se usa `project="diana-inversions"`.
-- Si omites `initiative`, se usa `initiative="001-inversions"`.
-- Resultado default: plan tecnico Diana del proyecto/initiative activo, listo para alimentar `/speckit.plan`.
+- Si omites `project`, se usa `project="inversions"`.
+- Si omites `name`, se auto-detecta el change: si existe exactamente uno en `changes/`, se usa ese; si hay varios, se usa el modificado mas recientemente.
+- Resultado default: plan tecnico Diana del proyecto/change activo, listo para alimentar `/speckit.plan`.
 
 ## Objetivo
 
@@ -38,28 +38,26 @@ Producir un plan tecnico consistente y trazable, subordinado a constitucion + sp
 ## Fuentes Oficiales Obligatorias
 
 Para `scope=project`:
-1. `.drfic/diana-sdk/projects/knowledge/indexes/projects-knowledge-radar.yaml`
-2. `.drfic/diana-sdk/projects/<project>/inv-constitution.md`
-3. `.drfic/diana-sdk/projects/<project>/initiatives/<initiative>/001-inv-spec.md`
+1. `.drfic/diana/projects/registry/indexes/projects-knowledge-radar.yaml`
+2. `.drfic/diana/projects/<project>/constitution.md`
+3. `.drfic/diana/projects/<project>/changes/<name>/spec.md`
 4. `specs/001-plataforma-inversiones-ia/spec.md`
-5. `.drfic/diana-sdk/projects/<project>/governance/change-requests/001-inv-ucc.md`
-6. `.drfic/diana-sdk/projects/<project>/governance/tickets/001-inv-tkt.md`
-7. `.drfic/diana-sdk/projects/<project>/initiatives/<initiative>/meta.md`
+5. `.drfic/diana/projects/<project>/changes/<name>/context.md`
+6. `.drfic/tickets/<project>/` (ticket relacionado al change, si existe — pool compartido top-level, agrupado por proyecto)
 
 ## Skills + Knowledge First (obligatorio)
 
 Antes de generar o validar plan:
 
 1. Cargar skills:
-- `.drfic/diana-sdk/projects/<project>/knowledge/indexes/skills-manifest.yaml`
-- `.drfic/diana-sdk/projects/<project>/knowledge/indexes/agent-skill-matrix.yaml`
-- `.drfic/diana-sdk/projects/<project>/knowledge/indexes/sdd-engine-matrix.yaml`
-- `.drfic/diana-sdk/sdk/diana/knowledge/indexes/shared-skills-manifest.yaml` (si existe)
+- `.drfic/diana/projects/<project>/capabilities/manifest.yaml`
+- `.drfic/diana/projects/<project>/capabilities/agent-skill-matrix.yaml`
+- `.drfic/diana/projects/<project>/capabilities/sdd-engine-matrix.yaml`
+- `.drfic/diana/engine/skills/` (escanear directamente el directorio para detectar skills SDK compartidas, sin manifest paralelo)
 
-2. Cargar knowledge (orden):
-- `.drfic/diana-sdk/projects/knowledge/indexes/master-index.md`
-- `.drfic/diana-sdk/projects/<project>/knowledge/indexes/master-index.md`
-- `.drfic/diana-sdk/sdk/diana/knowledge/indexes/master-index.md` (si aplica)
+2. Cargar knowledge (escaneo directo del arbol, sin indice paralelo en ningun scope):
+- `.drfic/knowledge/` (arbol compartido entre proyectos; escanear el arbol completo para detectar documentos relevantes al plan)
+- Para `scope=sdk`: escanear directamente `.drfic/diana/engine/knowledge/<categoria>/` (sin `master-index.md` que mantener, igual que los demas scopes)
 
 3. Resolver required_skills para etapa de planificacion:
 - `speckit.plan`
@@ -72,8 +70,8 @@ Antes de generar o validar plan:
 
 ## Salidas Obligatorias
 
-1. Plan tecnico canonico del proyecto:
-- `.drfic/diana-sdk/projects/<project>/initiatives/<initiative>/001-inv-plan.md`
+1. Plan tecnico canonico del change:
+- `.drfic/diana/projects/<project>/changes/<name>/plan.md`
 
 2. Evidencia de consistencia plan/spec (en validate):
 - reporte en salida con OK/GAPS + acciones sugeridas.
@@ -83,7 +81,7 @@ Antes de generar o validar plan:
 
 ## Action=generate
 
-- Generar o actualizar `001-inv-plan.md` subordinado a constitucion y specs.
+- Generar o actualizar `plan.md` subordinado a constitucion y specs.
 - Incluir arquitectura, fases, riesgos y criterios de validacion tecnica.
 - Mantener alineacion con FR/SC de spec operativa.
 
@@ -104,15 +102,15 @@ Devolver resumen:
 
 - Releer todas las fuentes oficiales.
 - Recalcular el plan desde cero.
-- Reescribir `001-inv-plan.md` manteniendo continuidad semantica cuando sea posible.
+- Reescribir `plan.md` manteniendo continuidad semantica cuando sea posible.
 - Reportar cambios significativos vs version previa.
 
 ## Integracion con Speckit
 
 Flujo recomendado:
-1. `/diana.skills action="validate" scope="project" project="diana-inversions"`
-2. `/diana.knowledge scope="project" project="diana-inversions"`
-3. `/diana.plan action="generate" scope="project" project="diana-inversions"`
+1. `/diana.skills action="validate" scope="project" project="inversions"`
+2. `/diana.knowledge scope="project" project="inversions"`
+3. `/diana.plan action="generate" scope="project" project="inversions"`
 4. `/speckit.plan`
 
 ## Notas de agente (Diana)

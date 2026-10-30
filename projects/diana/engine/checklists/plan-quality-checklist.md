@@ -1,4 +1,4 @@
-# File: sdk/diana/checklists/plan-quality-checklist.md
+# File: engine/checklists/plan-quality-checklist.md
 # DIANA‑SDK by DRFIC
 ## Checklist Automático de Calidad de PLAN (BULMA + VEGETA)
 

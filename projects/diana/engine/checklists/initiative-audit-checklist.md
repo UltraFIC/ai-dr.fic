@@ -1,17 +1,17 @@
-# File: sdk/diana/checklists/initiative-audit-checklist.md
+# File: engine/checklists/initiative-audit-checklist.md
 # DIANA‑SDK by DRFIC
-## Checklist Automático de Auditoría de Iniciativa (VEGETA + GOKU)
+## Checklist Automático de Auditoría de Change (VEGETA + GOKU)
 
 Propósito:
-Asegurar que una iniciativa es auditable y que el flujo negocio→canon→ejecución está íntegro.
+Asegurar que un change es auditable y que el flujo negocio→canon→ejecución está íntegro.
 
 ---
 
 ## 1. Origen (WARN → BLOCKER en entornos regulados)
 
-[ ] meta.md incluye origen organizacional (ticket, CR o decisión estratégica)  
-[ ] meta.md declara tipo de iniciativa: greenfield / brownfield / bugfix  
-[ ] meta.md aclara que es informativo y no ejecutable
+[ ] context.md incluye origen organizacional (ticket, change relacionado o decisión estratégica)  
+[ ] context.md declara tipo de change: greenfield / brownfield / bugfix  
+[ ] context.md aclara que la sección de origen es informativa y no ejecutable
 
 ---
 
@@ -25,8 +25,8 @@ Asegurar que una iniciativa es auditable y que el flujo negocio→canon→ejecuc
 
 ## 3. Versionado (WARN)
 
-[ ] La iniciativa indica si reemplaza una spec previa (cuando aplica)  
-[ ] Si hay reemplazo, se declara “reemplaza SPEC-xxx” en la spec o en meta
+[ ] El change indica si reemplaza una spec previa (cuando aplica)  
+[ ] Si hay reemplazo, se declara “reemplaza SPEC-xxx” en la spec o en context.md
 
 ---
 

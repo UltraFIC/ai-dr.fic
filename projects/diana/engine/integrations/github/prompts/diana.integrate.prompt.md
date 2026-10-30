@@ -13,25 +13,25 @@ description: Define perfil de integracion temprano y genera/valida/regenera el h
 /diana.integrate action="regenerate" engine="speckit"
 /diana.integrate action="run" engine="speckit" run_only="plan"
 /diana.integrate action="run" engine="speckit" run_only="tasks"
-/diana.integrate action="all" engine="speckit" project="diana-inversions" initiative="001-inversions"
-/diana.integrate action="all" engine="speckit" project="diana-inversions" initiative="001-inversions" team="TEAM-01" until="specify"
-/diana.integrate action="all" engine="speckit" project="diana-inversions" initiative="001-inversions" team="TEAM-01" until="tasks"
-/diana.integrate action="all" engine="speckit" project="diana-inversions" initiative="001-inversions" team="TEAM-01" until="specify" language="es"
-/diana.integrate action="all" engine="speckit" project="diana-inversions" initiative="001-inversions" team="TEAM-01" from="plan" until="plan"
-/diana.integrate action="all" engine="speckit" project="diana-inversions" initiative="001-inversions" team="TEAM-01" from="tasks" until="tasks"
+/diana.integrate action="all" engine="speckit" project="inversions" name="mfa-accesos-criticos"
+/diana.integrate action="all" engine="speckit" project="inversions" name="mfa-accesos-criticos" team="TEAM-01" until="specify"
+/diana.integrate action="all" engine="speckit" project="inversions" name="mfa-accesos-criticos" team="TEAM-01" until="tasks"
+/diana.integrate action="all" engine="speckit" project="inversions" name="mfa-accesos-criticos" team="TEAM-01" until="specify" language="es"
+/diana.integrate action="all" engine="speckit" project="inversions" name="mfa-accesos-criticos" team="TEAM-01" from="plan" until="plan"
+/diana.integrate action="all" engine="speckit" project="inversions" name="mfa-accesos-criticos" team="TEAM-01" from="tasks" until="tasks"
 
 Modo recomendado multi-proyecto:
 
-/diana.integrate action="generate" scope="project" project="diana-inversions" initiative="001-inversions" engine="speckit" stage="implement"
+/diana.integrate action="generate" scope="project" project="inversions" name="mfa-accesos-criticos" engine="speckit" stage="implement"
 
 ## Argumentos
 
 | Argumento | Valores | Default | Descripcion |
 |-----------|---------|---------|-------------|
 | action | bootstrap \| generate \| validate \| regenerate \| run \| all | generate | Operacion sobre perfil/handoff |
-| scope | project | initiative | sdk | project | Nivel de ejecucion |
-| project | id en projects-knowledge-radar | diana-inversions | Proyecto objetivo |
-| initiative | id de iniciativa | 001-inversions | Iniciativa objetivo |
+| scope | project | change | sdk | project | Nivel de ejecucion |
+| project | id en projects-knowledge-radar | inversions | Proyecto objetivo |
+| name | string (nombre de change ya existente) | auto-detect | Change objetivo |
 | engine | speckit | openspec | generic_sdd | speckit | Framework SDD objetivo |
 | stage | specify | clarify | plan | tasks | implement | refine | design | breakdown | build | discovery | architecture | decomposition | delivery | implement | Etapa objetivo dentro del engine |
 | run_only | specify | clarify | plan | tasks | implement | refine | design | breakdown | build | discovery | architecture | decomposition | delivery | implement | (vacío) | Etapa unica a ejecutar cuando action="run" |
@@ -45,33 +45,33 @@ Modo recomendado multi-proyecto:
 
 ## Fuentes Oficiales Obligatorias
 
-1. `.drfic/diana-sdk/projects/knowledge/indexes/projects-knowledge-radar.yaml`
-2. `.drfic/diana-sdk/projects/<project>/inv-constitution.md`
+1. `.drfic/diana/projects/registry/indexes/projects-knowledge-radar.yaml`
+2. `.drfic/diana/projects/<project>/constitution.md`
 3. Fuente de spec segun topologia:
-   - `single_person`: `.drfic/diana-sdk/projects/<project>/initiatives/<initiative>/001-inv-spec.md`
-   - `multi_team`: `.drfic/diana-sdk/projects/<project>/initiatives/<initiative>/teams/TEAM-XX/spec.md`
+   - `single_person`: `.drfic/diana/projects/<project>/changes/<name>/spec.md`
+   - `multi_team`: `.drfic/diana/projects/<project>/changes/<name>/teams/TEAM-XX/spec.md`
 4. Fuente de plan segun topologia:
-   - `single_person`: `.drfic/diana-sdk/projects/<project>/initiatives/<initiative>/001-inv-plan.md`
-   - `multi_team`: `.drfic/diana-sdk/projects/<project>/initiatives/<initiative>/teams/TEAM-XX/plan.md`
+   - `single_person`: `.drfic/diana/projects/<project>/changes/<name>/plan.md`
+   - `multi_team`: `.drfic/diana/projects/<project>/changes/<name>/teams/TEAM-XX/plan.md`
 5. Fuente de tasks segun topologia:
-   - `single_person`: `.drfic/diana-sdk/projects/<project>/initiatives/<initiative>/001-inv-tasks.md`
-   - `multi_team`: `.drfic/diana-sdk/projects/<project>/initiatives/<initiative>/teams/TEAM-XX/tasks.md`
-6. `.drfic/diana-sdk/projects/<project>/knowledge/indexes/sdd-engine-matrix.yaml`
-7. `.drfic/diana-sdk/projects/<project>/knowledge/indexes/skills-manifest.yaml`
-8. `.drfic/diana-sdk/projects/<project>/knowledge/indexes/agent-skill-matrix.yaml`
-9. `.drfic/diana-sdk/projects/<project>/initiatives/<initiative>/speckit/team-task-allocation.md` (si existe trabajo multi-equipo)
-10. `.drfic/diana-sdk/projects/<project>/initiatives/<initiative>/speckit/team-agent-bootstrap.md` (si existe trabajo multi-equipo)
-11. `.drfic/diana-sdk/projects/<project>/initiatives/<initiative>/integrations/integration-profile.md` (si existe)
+   - `single_person`: `.drfic/diana/projects/<project>/changes/<name>/tasks.md`
+   - `multi_team`: `.drfic/diana/projects/<project>/changes/<name>/teams/TEAM-XX/tasks.md`
+6. `.drfic/diana/projects/<project>/capabilities/sdd-engine-matrix.yaml`
+7. `.drfic/diana/projects/<project>/capabilities/manifest.yaml`
+8. `.drfic/diana/projects/<project>/capabilities/agent-skill-matrix.yaml`
+9. `.drfic/diana/projects/<project>/changes/<name>/speckit/team-task-allocation.md` (si existe trabajo multi-equipo)
+10. `.drfic/diana/projects/<project>/changes/<name>/speckit/team-agent-bootstrap.md` (si existe trabajo multi-equipo)
+11. `.drfic/diana/projects/<project>/changes/<name>/integrations/integration-profile.md` (si existe)
 
 ## Template Core Obligatoria
 
-1. `.drfic/diana-sdk/sdk/diana/templates/engine-handoff.md`
-2. `.drfic/diana-sdk/sdk/diana/templates/integration-profile.md`
+1. `.drfic/diana/engine/templates/engine-handoff.md`
+2. `.drfic/diana/engine/templates/integration-profile.md`
 
 ## Salidas Obligatorias
 
-1. `.drfic/diana-sdk/projects/<project>/initiatives/<initiative>/integrations/<engine>-handoff.md`
-2. `.drfic/diana-sdk/projects/<project>/initiatives/<initiative>/integrations/integration-profile.md`
+1. `.drfic/diana/projects/<project>/changes/<name>/integrations/<engine>-handoff.md`
+2. `.drfic/diana/projects/<project>/changes/<name>/integrations/integration-profile.md`
 2. Resumen de readiness por stage/engine
 3. Lista de artefactos Diana que el engine debe consumir sin reinterpretar el canon
 
@@ -105,7 +105,7 @@ Validacion de cobertura obligatoria al finalizar cada etapa:
 	- policy de autoridad (Diana canon strict)
 - Regla de autoridad de topologia:
    - `integration-profile.md` es la fuente de verdad para la topologia humana.
-   - `/diana.teams action="topology"` debe leer esta decision y materializarla en la iniciativa (`meta.md`, `scope_primario.md`, `teams/TEAM-XX/`).
+   - `/diana.teams action="topology"` debe leer esta decision y materializarla en el change (`context.md`, `scope_primario.md`, `teams/TEAM-XX/`).
    - Solo se permite override si el usuario lo solicita explicitamente o si existe inconsistencia detectada.
 - Definir politicas de automatizacion por etapa y sincronizacion de tareas.
 - Esta accion se recomienda justo despues de `/diana.change` y antes de `/diana.constitution`.
@@ -117,7 +117,7 @@ Validacion de cobertura obligatoria al finalizar cada etapa:
 - Declarar orden de ejecución recomendado y artefactos de entrada obligatorios.
 - Declarar si el engine puede ejecutar implementación directa o requiere reparto multi-equipo previo.
 - Respetar `integration-profile.md` cuando exista.
-- En `multi_team`, no exigir artefactos globales `001-inv-spec/plan/tasks.md` si existen los artefactos por equipo.
+- En `multi_team`, no exigir artefactos globales `spec.md`/`plan.md`/`tasks.md` (raiz del change) si existen los artefactos por equipo.
 
 ## Action=validate
 
@@ -157,9 +157,9 @@ Reglas:
 
 Ejemplos operativos:
 - Solo plan para TEAM-01:
-   `/diana.integrate action="run" engine="speckit" project="diana-inversions" initiative="001-inversions" team="TEAM-01" run_only="plan"`
+   `/diana.integrate action="run" engine="speckit" project="inversions" name="mfa-accesos-criticos" team="TEAM-01" run_only="plan"`
 - Solo tasks para TEAM-01:
-   `/diana.integrate action="run" engine="speckit" project="diana-inversions" initiative="001-inversions" team="TEAM-01" run_only="tasks"`
+   `/diana.integrate action="run" engine="speckit" project="inversions" name="mfa-accesos-criticos" team="TEAM-01" run_only="tasks"`
 
 ---
 
@@ -177,7 +177,7 @@ Regla de idioma:
 
 Validacion previa obligatoria:
 - Verificar que la topologia en `integration-profile.md` sea `multi_team`.
-- Si no coincide con `meta.md`, detener y pedir confirmacion de override antes de continuar.
+- Si no coincide con `context.md`, detener y pedir confirmacion de override antes de continuar.
 
 Procedimiento:
 
@@ -226,17 +226,17 @@ Reglas:
 
 Ejemplos operativos:
 - Solo specify para TEAM-01:
-  `/diana.integrate action="all" engine="speckit" project="diana-inversions" initiative="001-inversions" team="TEAM-01" until="specify"`
+  `/diana.integrate action="all" engine="speckit" project="inversions" name="mfa-accesos-criticos" team="TEAM-01" until="specify"`
 - Solo specify para TEAM-01 en espanol:
-   `/diana.integrate action="all" engine="speckit" project="diana-inversions" initiative="001-inversions" team="TEAM-01" until="specify" language="es"`
+   `/diana.integrate action="all" engine="speckit" project="inversions" name="mfa-accesos-criticos" team="TEAM-01" until="specify" language="es"`
 - Hasta tasks para TEAM-03:
-  `/diana.integrate action="all" engine="speckit" project="diana-inversions" initiative="001-inversions" team="TEAM-03" until="tasks"`
+  `/diana.integrate action="all" engine="speckit" project="inversions" name="mfa-accesos-criticos" team="TEAM-03" until="tasks"`
 - Solo plan para TEAM-01:
-   `/diana.integrate action="all" engine="speckit" project="diana-inversions" initiative="001-inversions" team="TEAM-01" from="plan" until="plan"`
+   `/diana.integrate action="all" engine="speckit" project="inversions" name="mfa-accesos-criticos" team="TEAM-01" from="plan" until="plan"`
 - Solo tasks para TEAM-01:
-   `/diana.integrate action="all" engine="speckit" project="diana-inversions" initiative="001-inversions" team="TEAM-01" from="tasks" until="tasks"`
+   `/diana.integrate action="all" engine="speckit" project="inversions" name="mfa-accesos-criticos" team="TEAM-01" from="tasks" until="tasks"`
 - Flujo completo para todos:
-  `/diana.integrate action="all" engine="speckit" project="diana-inversions" initiative="001-inversions" team="all" until="implement"`
+  `/diana.integrate action="all" engine="speckit" project="inversions" name="mfa-accesos-criticos" team="all" until="implement"`
 
 **Regla**: Speckit lee los artefactos Diana en `teams/TEAM-XX/` como INPUT BASE canónico.
 No los descarta ni los reinterpreta — los optimiza con su lógica SDD.

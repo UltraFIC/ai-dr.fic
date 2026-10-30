@@ -1,128 +1,65 @@
 ---
 agent: diana.change
-description: Crea un archivo de control de cambios (UCC) por proyecto, numeracion secuencial automatica y ticket relacionado opcional/automatico con trazabilidad.
+description: Crea (o asegura) la carpeta de un change dentro de changes/<name>/ con su context.md, de forma independiente por defecto (sin ticket). Es el atajo de un paso que delega en /diana.context scope="change".
 ---
 
-# /diana.change - Control de Cambios + Ticket Relacionado
+# /diana.change - Inicio de un Change
 
 ## Uso
 
-/diana.change project="demo-project" title="MFA para accesos criticos" description="Agregar MFA para roles trader/admin"
-/diana.change project="demo-project" --input "docs/cambios/mfa-ucc.md"
-/diana.change project="demo-project" create_ticket="false" title="Actualizar taxonomia de riesgo" description="Refinar categorias de riesgo"
-/diana.change project="demo-project" title="MFA" description="..." ticket_title="Implementar MFA v1"
+/diana.change project="inversions" name="mfa-accesos-criticos" title="MFA para accesos criticos" description="Agregar MFA para roles trader/admin"
+/diana.change project="inversions" name="fix-login-timeout" --input "docs/cambios/fix-login-timeout.md"
+/diana.change project="inversions" name="taxonomia-riesgo" title="Actualizar taxonomia de riesgo" description="Refinar categorias de riesgo"
+/diana.change project="inversions" name="mfa-v2" title="MFA v2" description="..." create_ticket="true" ticket_title="Dar seguimiento a MFA v2"
 
 ## Argumentos
 
 | Argumento | Valores | Default | Descripcion |
 |-----------|---------|---------|-------------|
-| action | create | validate | create | Crea o valida artefactos de cambio |
-| project | string | requerido | Proyecto objetivo; se normaliza a `diana-<project>` |
-| alias | string corto lowercase | auto (radar -> derivado) | Alias para nombres (`001-<alias>-ucc.md`) |
-| input | ruta markdown | null | Fuente principal del contenido del UCC |
-| title | string | null | Titulo del cambio (si no hay `input`) |
+| action | create \| validate | create | Crea o valida el change |
+| project | string | requerido | Proyecto objetivo (ya debe existir) |
+| name | string (1-2 palabras significativas, lowercase) | requerido | Nombre del change; es el nombre literal de la carpeta `changes/<name>/`. Sin numeracion, sin alias. |
+| input | ruta markdown | null | Fuente principal del contenido de `context.md` |
+| title | string | null | Titulo del change (si no hay `input`) |
 | description | string | null | Descripcion base (si no hay `input`) |
-| content | string | null | Cuerpo completo inline para el UCC |
-| create_ticket | true | false | true | Si `true`, crea ticket relacionado automaticamente |
-| ticket_title | string | auto | Titulo del ticket derivado |
-| ticket_description | string | auto | Descripcion del ticket derivado |
+| content | string | null | Cuerpo completo inline para `context.md` |
+| create_ticket | true \| false | **false** | Si `true`, ademas crea un ticket en el pool compartido `.drfic/tickets/` enlazado a este change. Por defecto un change NO crea ticket: un change debe poder generarse de forma independiente. |
+| ticket_title | string | auto | Titulo del ticket derivado (solo si `create_ticket=true`) |
+| ticket_description | string | auto | Descripcion del ticket derivado (solo si `create_ticket=true`) |
 
 ## Objetivo
 
-Crear un UCC canonico del proyecto en `governance/change-requests` y, por defecto, crear tambien el ticket relacionado en `governance/tickets`.
-
-## Resolucion de Alias por Default
-
-Orden de resolucion de `alias`:
-1. Si se pasa `alias`, usarlo.
-2. Si no se pasa, buscar `alias` persistido del proyecto en `.drfic/diana-sdk/projects/knowledge/indexes/projects-knowledge-radar.yaml`.
-3. Si no existe en radar, autoderivar desde `<project-sin-prefijo>`.
+Asegurar que exista `changes/<name>/` con su `context.md`, delegando la captura de contenido en la misma logica que `/diana.context scope="change"` (de hecho, `/diana.change` es un atajo de un solo paso sobre esa accion; si `/diana.context scope="change" project="<project>" name="<name>"` ya corrio, este comando simplemente confirma que existe y, si `create_ticket=true`, crea el ticket enlazado).
 
 ## Reglas de Resolucion de Contenido
 
-Prioridad para construir el contenido del UCC:
+Prioridad para construir el contenido de `context.md` (identica a `/diana.context`):
 
 1. Si existe `--input`, usar el contenido completo del archivo.
 2. Si no hay `input` y existe `content`, usar `content`.
-3. Si no hay `input` ni `content`, usar plantilla minima con `title` + `description`.
+3. Si no hay `input` ni `content`, usar la plantilla minima (`templates/context.md`) con `title` + `description`.
 4. Si no hay suficiente informacion para (1-3), detener con error accionable.
-
-## Reglas de Numeracion
-
-1. Buscar en `.drfic/diana-sdk/projects/<project>/governance/change-requests/`.
-2. Detectar mayor prefijo numerico `NNN-*.md`.
-3. Usar `NNN+1` para el nuevo UCC.
-4. UCC resultante: `NNN-<alias>-ucc.md`.
-5. Si `create_ticket=true`, crear ticket con el mismo `NNN` por trazabilidad: `NNN-<alias>-tkt.md`.
 
 ## Estructura de Salida
 
-- UCC:
-  - `.drfic/diana-sdk/projects/<project>/governance/change-requests/NNN-<alias>-ucc.md`
-- Ticket relacionado (si `create_ticket=true`):
-  - `.drfic/diana-sdk/projects/<project>/governance/tickets/NNN-<alias>-tkt.md`
-
-## Plantilla Minima UCC (si no hay input)
-
-```markdown
-# Control de Cambios
-## NNN-<alias>-ucc
-
-## Titulo
-<title>
-
-## Contexto
-<description>
-
-## Alcance
-- Definir alcance funcional
-
-## Impacto Esperado
-- Impacto en procesos, sistema o usuarios
-
-## Riesgos
-- Riesgo 1
-
-## Estado
-- Draft
-```
-
-## Plantilla Minima Ticket Relacionado
-
-```markdown
-# Ticket de Servicio
-## NNN-<alias>-tkt
-
-## Relacion
-- UCC: NNN-<alias>-ucc
-
-## Titulo
-<ticket_title or title>
-
-## Solicitud
-<ticket_description or description>
-
-## Prioridad
-- medium
-
-## Estado
-- OPEN
-```
+- `.drfic/diana/projects/<project>/changes/<name>/context.md`
+- Ticket relacionado (solo si `create_ticket=true`):
+  - `.drfic/tickets/<project>/tkt-<num_ticket_interno>-<1-4 palabras>.md` (pool compartido, agrupado por proyecto), con su campo `Relacion` apuntando a `project: <project>` y `change: changes/<name>`.
 
 ## Action=create
 
-- Resolver `project` y `alias`.
-- Resolver contenido del UCC con la prioridad definida.
-- Crear UCC secuencial.
-- Si `create_ticket=true`, crear ticket relacionado con mismo `NNN`.
-- Reportar IDs y rutas creadas.
+- Resolver `project` y `name` (sin prefijo ni alias).
+- Validar que `changes/<name>/` no exista ya (salvo que se este completando con `--input` sobre un change existente, en cuyo caso tratar como `/diana.context action=validate` primero).
+- Resolver contenido de `context.md` con la prioridad definida, usando `templates/context.md`.
+- Crear `changes/<name>/context.md`.
+- Si `create_ticket=true`, crear el ticket relacionado (ver `/diana.ticket`, modo `create` o `link`).
+- Reportar rutas creadas.
 
 ## Action=validate
 
 Verificar:
-- UCC existe y cumple naming `NNN-<alias>-ucc.md`.
-- Si existe ticket relacionado, referencia el UCC correcto.
-- Numeracion no colisiona.
+- `changes/<name>/context.md` existe y cumple la estructura de `templates/context.md`.
+- Si existe algun ticket que declare `Relacion` hacia este change, la referencia es consistente.
 
 Devolver:
 - `OK: [n]`

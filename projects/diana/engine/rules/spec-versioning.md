@@ -77,7 +77,7 @@ Estos cambios afectan solo el **“cómo”**.
 
 ## 5. Modelo de Versionado Adoptado
 
-DIANA‑SDK utiliza **versionado secuencial por iniciativa**, no semver clásico.
+DIANA‑SDK utiliza **versionado secuencial por change** (antes "iniciativa"), no semver clásico.
 
 Formato conceptual:
 
@@ -92,25 +92,25 @@ Donde:
 
 ---
 
-## 6. Relación entre Versión y Iniciativa
+## 6. Relación entre Versión y Change
 
 ### Regla Fundamental
 
-> **Cada nueva versión de especificación vive en una nueva iniciativa.**
+> **Cada nueva versión de especificación vive en un nuevo change.**
 
-No existen múltiples versiones de spec dentro de una misma iniciativa.
+No existen múltiples versiones de spec dentro de un mismo change.
 
 Ejemplo correcto:
 
-initiatives/
-├── 001-foundation/
+changes/
+├── foundation/
 │   └── spec.md   # SPEC‑001
-├── 002-portfolio-ia/
+├── portfolio-ia/
 │   └── spec.md   # SPEC‑002
 
 Ejemplo incorrecto:
 
-initiatives/001-foundation/
+changes/foundation/
 ├── spec-v1.md
 ├── spec-v2.md
 
@@ -119,7 +119,7 @@ initiatives/001-foundation/
 
 ## 7. Ubicación y Nombre del Archivo
 
-Dentro de una iniciativa:
+Dentro de un change:
 - El archivo siempre se llama `spec.md`
 - La versión se declara **dentro del contenido**, no en el nombre del archivo
 
@@ -131,7 +131,7 @@ Ejemplo de encabezado recomendado:
 
 Versión: SPEC‑002  
 Estado: Activa  
-Iniciativa: 002-portfolio-ia
+Change: portfolio-ia
 
 ## 8. Estado de una Especificación
 Cada especificación debe declarar su estado:
@@ -147,7 +147,7 @@ Solo las specs Activas pueden ser ejecutadas por Speckit.
 
 Cada versión de spec tiene su propio plan técnico
 Cambios en el plan NO implican nueva versión de spec
-Si el plan requiere cambiar la spec, se crea nueva iniciativa
+Si el plan requiere cambiar la spec, se crea un nuevo change
 
 Relación uno a uno:
 
@@ -161,13 +161,13 @@ Bugfix corrige el código para cumplir la spec vigente
 Si el bug revela ambigüedad en la spec:
 
 Se aclara sin cambiar comportamiento
-O se versiona explícitamente (nueva iniciativa)
+O se versiona explícitamente (nuevo change)
 
 
 ## 11. Relación con Speckit
 Reglas obligatorias:
 
-Speckit ejecuta una sola versión de spec por iniciativa
+Speckit ejecuta una sola versión de spec por change
 Speckit NO versiona specs
 Speckit NO migra versiones
 Speckit NO interpreta compatibilidad entre versiones
@@ -180,12 +180,12 @@ Asume que es la versión activa del cambio
 
 ## 12. Trazabilidad entre Versiones
 La trazabilidad entre versiones debe declararse explícitamente
-en la nueva iniciativa:
+en el nuevo change:
 
 ## Trazabilidad
 
 Esta especificación (SPEC‑002) reemplaza a:
-- SPEC‑001 (Iniciativa 001-foundation)
+- SPEC‑001 (Change foundation)
 
 Motivo del cambio:
 - Nueva funcionalidad de portafolios con IA
@@ -203,7 +203,7 @@ El código debe alinearse siempre con la versión activa.
 ## 14. Regla Final de Versionado
 Si el comportamiento cambia, la spec versiona.
 Si solo cambia el código, la spec no se toca.
-Cada versión vive en su iniciativa.
+Cada versión vive en su change.
 El canon se protege siempre.
 
 ## 15. Estado

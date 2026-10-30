@@ -58,24 +58,25 @@ Speckit **nunca decide alcance, arquitectura o requisitos por sí mismo**.
 
 ## 4. Nivel de Operación Permitido para Speckit
 
-Speckit **SOLO puede operar a nivel de INICIATIVA**.
+Speckit **SOLO puede operar a nivel de CHANGE** (antes "iniciativa").
 
 Estructura mínima esperada:
 
-projects//initiatives//
-├── meta.md
-├── constitution.md (si aplica)
+projects//changes//
+├── context.md
 ├── spec.md
 ├── plan.md
+├── tasks.md
 └── speckit/
 
+`constitution.md` vive en la raíz del proyecto, fuera del change.
 
 Speckit:
 - ✅ Lee `spec.md` y `plan.md`
 - ✅ Genera artefactos dentro de `speckit/`
 - ❌ NO modifica `constitution.md`
-- ❌ NO interpreta `meta.md`
-- ❌ NO opera fuera de la iniciativa
+- ❌ NO interpreta la sección Origen/Tipo de `context.md` (antes `meta.md`)
+- ❌ NO opera fuera del change
 
 ---
 

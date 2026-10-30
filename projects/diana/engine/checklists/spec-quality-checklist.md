@@ -1,4 +1,4 @@
-# File: sdk/diana/checklists/spec-quality-checklist.md
+# File: engine/checklists/spec-quality-checklist.md
 # DIANA‑SDK by DRFIC
 ## Checklist Automático de Calidad de SPEC (PICCOLO + VEGETA)
 

@@ -33,14 +33,16 @@ La forma con `diana-sdk-installer @ ...` es la más robusta porque le indica a `
 ## Estructura instalada
 
 - `.drfic/readme.md`
-- `.drfic/diana-sdk/sdk/diana/**`
-- `.drfic/diana-sdk/projects/knowledge/indexes/projects-knowledge-radar.yaml`
+- `.drfic/diana/engine/**`
+- `.drfic/diana/projects/registry/indexes/projects-knowledge-radar.yaml`
+- Carpetas compartidas organizadas libres por tema (sin proyecto): `.drfic/docs/`, `.drfic/knowledge/`, `.drfic/prompts/`, `.drfic/skills-dev/`
+- Carpetas compartidas organizadas por proyecto (`.drfic/<carpeta>/<proyecto>/<tema>/`): `.drfic/reports/`, `.drfic/tickets/`
 - `.github/prompts/diana.*.prompt.md` (si no se usa `--skip-actions`)
 - `.github/agents/diana.*.agent.md` (si no se usa `--skip-actions`)
 
 Incluye soporte de sincronizacion de tareas Speckit -> Diana TEAM:
 - Prompt/agent: `diana.sync`
-- Script local: `.drfic/diana-sdk/sdk/diana/scripts/powershell/diana-sync-team.ps1`
+- Script local: `.drfic/diana/engine/scripts/powershell/diana-sync-team.ps1`
 
 Incluye centro de ayuda de Diana:
 - Prompt/agent: `diana.help`

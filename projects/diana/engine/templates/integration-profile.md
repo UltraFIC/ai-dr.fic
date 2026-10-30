@@ -1,9 +1,8 @@
 # Diana Integration Profile Template
-## <nombre-de-la-iniciativa>
+## <nombre-del-change>
 
-Identificador: <NNN-INV-INTEGRATION-PROFILE>
 Proyecto:
-Iniciativa:
+Change:
 Version de perfil:
 Accion: /diana.integrate action="bootstrap"
 

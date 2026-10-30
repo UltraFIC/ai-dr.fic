@@ -1,0 +1,3 @@
+# Espejo regenerable del motor Diana (fuente real: projects/diana/engine/).
+# Nunca editar a mano; regenerar con el instalador (--force) cuando cambie el motor.
+.drfic/diana/sdk/diana/

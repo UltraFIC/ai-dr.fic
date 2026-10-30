@@ -1,9 +1,8 @@
 # Diana Engine Handoff Template
-## <nombre-de-la-iniciativa>
+## <nombre-del-change>
 
-Identificador: <NNN-INV-HANDOFF>
 Proyecto:
-Iniciativa:
+Change:
 Engine objetivo:
 Stage objetivo:
 Version de generacion:
@@ -14,10 +13,10 @@ Accion: /diana.integrate action="generate"
 ## Autoridad
 
 Este handoff está subordinado a:
-1. inv-constitution.md
-2. 001-inv-spec.md
-3. 001-inv-plan.md
-4. 001-inv-tasks.md
+1. constitution.md (raíz del proyecto)
+2. spec.md (de este change)
+3. plan.md (de este change)
+4. tasks.md (de este change)
 
 Ante conflicto, prevalece el canon Diana.
 

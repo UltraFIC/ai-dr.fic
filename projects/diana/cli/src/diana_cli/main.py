@@ -33,7 +33,7 @@ def _copy_pattern(src_dir: Path, dst_dir: Path, pattern: str, force: bool) -> No
 
 
 def _is_valid_assets_root(assets_root: Path) -> bool:
-    core = assets_root / "drfic" / "diana-sdk" / "sdk" / "diana"
+    core = assets_root / "drfic" / "diana" / "engine"
     prompts = assets_root / "github" / "prompts"
     agents = assets_root / "github" / "agents"
     return core.exists() and prompts.exists() and agents.exists()
@@ -77,21 +77,19 @@ def _resolve_assets_root() -> Path:
 def _init_project(target: Path, force: bool, skip_actions: bool) -> int:
     assets_root = _resolve_assets_root()
 
-    src_diana = assets_root / "drfic" / "diana-sdk" / "sdk" / "diana"
+    src_diana = assets_root / "drfic" / "diana" / "engine"
     src_prompts = assets_root / "github" / "prompts"
     src_agents = assets_root / "github" / "agents"
 
     drfic = target / ".drfic"
-    diana_sdk = drfic / "diana-sdk"
-    sdk_diana = diana_sdk / "sdk" / "diana"
-    projects = diana_sdk / "projects"
-    memory = diana_sdk / "memory"
+    diana_root = drfic / "diana"
+    engine_dir = diana_root / "engine"
+    projects = diana_root / "projects"
 
     drfic.mkdir(parents=True, exist_ok=True)
-    diana_sdk.mkdir(parents=True, exist_ok=True)
+    diana_root.mkdir(parents=True, exist_ok=True)
     projects.mkdir(parents=True, exist_ok=True)
-    memory.mkdir(parents=True, exist_ok=True)
-    sdk_diana.mkdir(parents=True, exist_ok=True)
+    engine_dir.mkdir(parents=True, exist_ok=True)
 
     drfic_readme = drfic / "readme.md"
     if force or not drfic_readme.exists():
@@ -100,9 +98,33 @@ def _init_project(target: Path, force: bool, skip_actions: bool) -> int:
             encoding="utf-8",
         )
 
-    _copy_tree(src_diana, sdk_diana, force=force)
+    flat_readme_text = (
+        "Organiza su contenido en subcarpetas libres por tema; si no existe una "
+        "carpeta para el tema, se crea una nueva. Sin estructura de categorias fija.\n"
+    )
+    per_project_readme_text = (
+        "Organiza su contenido por proyecto, no por tema: .drfic/{name}/<proyecto>/<tema>/. "
+        "Cada proyecto mantiene sus propias subcarpetas de tema; no se mezcla contenido "
+        "entre proyectos.\n"
+    )
+    shared_folders_readme = {
+        "docs": flat_readme_text,
+        "knowledge": flat_readme_text,
+        "prompts": flat_readme_text,
+        "skills-dev": flat_readme_text,
+        "reports": per_project_readme_text.format(name="reports"),
+        "tickets": per_project_readme_text.format(name="tickets"),
+    }
+    for shared_name, shared_readme_text in shared_folders_readme.items():
+        shared_dir = drfic / shared_name
+        shared_dir.mkdir(parents=True, exist_ok=True)
+        shared_readme = shared_dir / "README.md"
+        if force or not shared_readme.exists():
+            shared_readme.write_text(shared_readme_text, encoding="utf-8")
 
-    radar = projects / "knowledge" / "indexes" / "projects-knowledge-radar.yaml"
+    _copy_tree(src_diana, engine_dir, force=force)
+
+    radar = projects / "registry" / "indexes" / "projects-knowledge-radar.yaml"
     radar.parent.mkdir(parents=True, exist_ok=True)
     if force or not radar.exists():
         radar.write_text(
@@ -123,13 +145,14 @@ def _init_project(target: Path, force: bool, skip_actions: bool) -> int:
         _copy_pattern(src_prompts, target / ".github" / "prompts", "diana.*.prompt.md", force=force)
         _copy_pattern(src_agents, target / ".github" / "agents", "diana.*.agent.md", force=force)
 
-    if not any(sdk_diana.iterdir()):
-        print("Error: No se copio el core Diana SDK en .drfic/diana-sdk/sdk/diana")
+    if not any(engine_dir.iterdir()):
+        print("Error: No se copio el core Diana SDK en .drfic/diana/engine")
         return 1
 
     print(f"Diana SDK instalado correctamente en: {target}")
-    print("- Core SDK: .drfic/diana-sdk/sdk/diana")
-    print("- Radar base: .drfic/diana-sdk/projects/knowledge/indexes/projects-knowledge-radar.yaml")
+    print("- Core SDK: .drfic/diana/engine")
+    print("- Radar base: .drfic/diana/projects/registry/indexes/projects-knowledge-radar.yaml")
+    print("- Carpetas compartidas: .drfic/{docs,knowledge,prompts,reports,tickets,skills-dev}/")
     if not skip_actions:
         print("- Acciones Diana: .github/prompts y .github/agents")
     return 0

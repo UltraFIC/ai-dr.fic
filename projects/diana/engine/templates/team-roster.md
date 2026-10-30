@@ -1,11 +1,11 @@
 # Diana Team Roster Template
-## <initiative-or-project-name>
+## <change-or-project-name>
 
 ---
 
 ## Objetivo
 
-Registrar los equipos de trabajo, sus aliases y los integrantes que participan en una iniciativa, con trazabilidad técnica suficiente para coordinación con Diana, SpecKit y Git.
+Registrar los equipos de trabajo, sus aliases y los integrantes que participan en un change, con trazabilidad técnica suficiente para coordinación con Diana, SpecKit y Git.
 
 ---
 
@@ -54,4 +54,4 @@ Registrar los equipos de trabajo, sus aliases y los integrantes que participan e
 
 ## Estado
 
-Este documento constituye el **Registro Canónico de Equipos** para la iniciativa o proyecto.
+Este documento constituye el **Registro Canónico de Equipos** para el change o proyecto.

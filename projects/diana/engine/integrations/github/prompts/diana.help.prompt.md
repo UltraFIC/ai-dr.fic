@@ -39,12 +39,14 @@ Entregar ayuda accionable y consistente para:
 
 ## Catalogo Base de Comandos Diana
 
+- /diana.context
 - /diana.new
 - /diana.change
 - /diana.ticket
 - /diana.integrate
 - /diana.constitution
 - /diana.skills
+- /diana.install-skill
 - /diana.knowledge
 - /diana.specify
 - /diana.plan
@@ -56,40 +58,50 @@ Entregar ayuda accionable y consistente para:
 
 ### Multi-team
 
-1. /diana.new
-2. /diana.change
-3. /diana.integrate action="bootstrap"
-4. /diana.constitution
-5. /diana.teams
+1. /diana.context scope="project"
+2. /diana.new
+3. /diana.context scope="change" (o /diana.change)
+4. /diana.integrate action="bootstrap"
+5. /diana.constitution
+6. /diana.teams
+7. /diana.specify
+8. /diana.plan
+9. /diana.tasks
+10. /speckit.implement
+11. /diana.sync action="tasks" mode="dry-run"
+12. /diana.sync action="tasks" mode="apply"
+
+### Single-dev
+
+1. /diana.context scope="project"
+2. /diana.new
+3. /diana.context scope="change" (o /diana.change)
+4. /diana.integrate action="bootstrap" topology="single_dev"
+5. /diana.constitution
 6. /diana.specify
 7. /diana.plan
 8. /diana.tasks
 9. /speckit.implement
-10. /diana.sync action="tasks" mode="dry-run"
-11. /diana.sync action="tasks" mode="apply"
-
-### Single-dev
-
-1. /diana.new
-2. /diana.change
-3. /diana.integrate action="bootstrap" topology="single_dev"
-4. /diana.constitution
-5. /diana.specify
-6. /diana.plan
-7. /diana.tasks
-8. /speckit.implement
-9. /diana.sync (opcional)
+10. /diana.sync (opcional)
 
 ## Tutorial de Sync (Speckit -> Diana TEAM)
 
 1. Mantener mapeo explicito en `teams/TEAM-XX/tasks.md`:
    - Speckit T046 -> Diana T027, T033
 2. Ejecutar dry-run:
-   - pwsh .drfic/diana-sdk/sdk/diana/scripts/powershell/diana-sync-team.ps1 -Team TEAM-01 -Feature 002-team-01-dashboard-brokers -Mode dry-run
+   - pwsh .drfic/diana/engine/scripts/powershell/diana-sync-team.ps1 -Change mfa-accesos-criticos -Team TEAM-01 -Feature 002-team-01-dashboard-brokers -Mode dry-run
 3. Resolver conflictos/unmapped si aplica.
 4. Ejecutar apply:
-   - pwsh .drfic/diana-sdk/sdk/diana/scripts/powershell/diana-sync-team.ps1 -Team TEAM-01 -Feature 002-team-01-dashboard-brokers -Mode apply
+   - pwsh .drfic/diana/engine/scripts/powershell/diana-sync-team.ps1 -Change mfa-accesos-criticos -Team TEAM-01 -Feature 002-team-01-dashboard-brokers -Mode apply
 
 Regla:
 - Speckit puede ampliar tareas; no se eliminan.
 - El cierre global permanece canonico por IDs Diana existentes.
+
+## Nota sobre Skills
+
+`/diana.skills` solo genera tracking (`capabilities/`) y borradores reales en `.drfic/skills-dev/<skill>/SKILL.md` — ninguna skill queda activa para un agente todavia. El siguiente paso natural tras generar un borrador es `/diana.install-skill skill="<skill>" agents="claude"` (u otro(s) agente(s)), que copia el borrador a la carpeta de skills del agente elegido; instalar es siempre una accion humana explicita, nunca implicita.
+
+## Nota sobre Tickets
+
+Los tickets viven en el pool compartido `.drfic/tickets/<project>/tkt-<num_ticket_interno>-<1-4 palabras>.md` (carpeta top-level fuera del arbol de cada proyecto, agrupada por subcarpeta de proyecto) y referencian un `change_ref` (nombre del change), no un `ucc_ref`. Por defecto, todo ticket produce o enlaza un change — `standalone` es un opt-out explicito.
